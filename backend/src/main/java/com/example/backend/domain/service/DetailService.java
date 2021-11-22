@@ -17,11 +17,11 @@ public class DetailService {
     @Autowired
     DetailDaoJdbc dDaojdbc;
 
-    public EstimateDetail getProduct(int id) {
+    public EstimateDetail getDetail(int id) {
         return dDaojdbc.selectOne(id);
     }
 
-    public List<EstimateDetail> getProductList() {
+    public List<EstimateDetail> getDetailList() {
         return dDaojdbc.selectAll();
     }
 

@@ -16,15 +16,15 @@ public class EstimateService {
     @Autowired
     EstimateDaoJdbc eDaojdbc;
 
-    public Estimate getProduct(int id) {
+    public Estimate getEstimate(int id) {
         return eDaojdbc.selectOne(id);
     }
 
-    public List<Estimate> getProductList() {
+    public List<Estimate> getEstimateList() {
         return eDaojdbc.selectAll();
     }
 
-    public List<Estimate> getLikeProductList(String likeStr) {
+    public List<Estimate> getLikeEstimateList(String likeStr) {
         return eDaojdbc.selectLikeList(likeStr);
     }
 

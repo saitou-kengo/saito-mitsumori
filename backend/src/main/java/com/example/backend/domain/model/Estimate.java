@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public class Estimate {
     private int id;
-    private String estimate_name;
-    private int estimate_amount;
-    private int budgeted_amount;
-    private int customer_cd;
-    private int employee_cd;
-    private String estimate_date;
+    private String estimateName;
+    private int estimateAmount;
+    private int budgetedAmount;
+    private int customerCd;
+    private int employeeCd;
+    private String estimateDate;
     private String status;
-    private int order_id;
+    private int orderId;
 }

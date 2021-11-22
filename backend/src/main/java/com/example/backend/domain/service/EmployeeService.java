@@ -12,15 +12,15 @@ public class EmployeeService {
     @Autowired
     EmployeeDaoJdbc eDaojdbc;
 
-    public MstEmployee getProduct(int cd) {
+    public MstEmployee getEmployee(int cd) {
         return eDaojdbc.selectOne(cd);
     }
 
-    public List<MstEmployee> getProductList() {
+    public List<MstEmployee> getEmployeeList() {
         return eDaojdbc.selectAll();
     }
 
-    public List<MstEmployee> getLikeProductList(String likeStr) {
+    public List<MstEmployee> getLikeEmployeeList(String likeStr) {
         return eDaojdbc.selectLikeList(likeStr);
     }
 }

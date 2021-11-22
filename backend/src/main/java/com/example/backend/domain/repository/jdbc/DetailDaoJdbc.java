@@ -41,9 +41,9 @@ public class DetailDaoJdbc implements DetailDao {
 
         jdbc.update(sql,
             detail.getId(),
-            detail.getSub_id(),
-            detail.getEstimate_id(),
-            detail.getProduct_cd(),
+            detail.getSubId(),
+            detail.getEstimateId(),
+            detail.getProductCd(),
             detail.getQuantity()
         );
     }
@@ -55,9 +55,9 @@ public class DetailDaoJdbc implements DetailDao {
 
         jdbc.update(sql,
             updatedDetail.getId(),
-            updatedDetail.getSub_id(),
-            updatedDetail.getEstimate_id(),
-            updatedDetail.getProduct_cd(),
+            updatedDetail.getSubId(),
+            updatedDetail.getEstimateId(),
+            updatedDetail.getProductCd(),
             updatedDetail.getQuantity(),
             id);
     }

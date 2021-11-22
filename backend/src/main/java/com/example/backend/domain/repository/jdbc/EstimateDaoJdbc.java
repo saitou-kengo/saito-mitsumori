@@ -50,14 +50,14 @@ public class EstimateDaoJdbc implements EstimateDao {
 
         jdbc.update(sql,
             estimate.getId(),
-            estimate.getEstimate_name(),
-            estimate.getEstimate_amount(),
-            estimate.getBudgeted_amount(),
-            estimate.getCustomer_cd(),
-            estimate.getEmployee_cd(),
-            estimate.getEstimate_date(),
+            estimate.getEstimateName(),
+            estimate.getEstimateAmount(),
+            estimate.getBudgetedAmount(),
+            estimate.getCustomerCd(),
+            estimate.getEmployeeCd(),
+            estimate.getEstimateDate(),
             estimate.getStatus(),
-            estimate.getOrder_id());
+            estimate.getOrderId());
     }
 
     //データ更新
@@ -67,14 +67,14 @@ public class EstimateDaoJdbc implements EstimateDao {
 
         jdbc.update(sql,
             updatedEstimate.getId(),
-            updatedEstimate.getEstimate_name(),
-            updatedEstimate.getEstimate_amount(),
-            updatedEstimate.getBudgeted_amount(),
-            updatedEstimate.getCustomer_cd(),
-            updatedEstimate.getEmployee_cd(),
-            updatedEstimate.getEstimate_date(),
+            updatedEstimate.getEstimateName(),
+            updatedEstimate.getEstimateAmount(),
+            updatedEstimate.getBudgetedAmount(),
+            updatedEstimate.getCustomerCd(),
+            updatedEstimate.getEmployeeCd(),
+            updatedEstimate.getEstimateDate(),
             updatedEstimate.getStatus(),
-            updatedEstimate.getOrder_id(),
+            updatedEstimate.getOrderId(),
             id);
     }
 

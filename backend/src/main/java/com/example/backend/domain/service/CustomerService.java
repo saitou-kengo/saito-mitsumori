@@ -12,15 +12,15 @@ public class CustomerService {
     @Autowired
     CustomerDaoJdbc cDaojdbc;
 
-    public MstCustomer getProduct(int cd) {
+    public MstCustomer getCustomer(int cd) {
         return cDaojdbc.selectOne(cd);
     }
 
-    public List<MstCustomer> getProductList() {
+    public List<MstCustomer> getCustomerList() {
         return cDaojdbc.selectAll();
     }
 
-    public List<MstCustomer> getLikeProductList(String likeStr) {
+    public List<MstCustomer> getLikeCustomerList(String likeStr) {
         return cDaojdbc.selectLikeList(likeStr);
     }
 }
