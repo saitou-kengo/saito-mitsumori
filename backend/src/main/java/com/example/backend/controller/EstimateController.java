@@ -3,13 +3,9 @@ package com.example.backend.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.backend.domain.model.Estimate;
-import com.example.backend.domain.model.MstCustomer;
-import com.example.backend.domain.model.MstEmployee;
-import com.example.backend.domain.model.ViewEstimate;
-import com.example.backend.domain.service.CustomerService;
-import com.example.backend.domain.service.EmployeeService;
+import com.example.backend.domain.model.JoinEstimateToMst;
 import com.example.backend.domain.service.EstimateService;
+import com.example.backend.domain.service.JoinEstimateToMstService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,13 +22,38 @@ public class EstimateController {
 
     @Autowired
     EstimateService esService;
-    CustomerService cService;
-    EmployeeService emService;
+    JoinEstimateToMstService jEService;
 
     @GetMapping("/api/v1/estimates")
-    public List<ViewEstimate> getAllEstimateList() {
-        List<Estimate> eList = esService.getEstimateList();
-        return createViewEstimateList(eList);
+    public List<JoinEstimateToMst> getAllEstimateList() {
+        return jEService.getAllJoinEstimateToMstList();
+    }
+
+    @GetMapping("/api/v1/estimates/{id}")
+    public List<JoinEstimateToMst> getEstimateById(@PathVariable("id") int id) {
+        List<JoinEstimateToMst> eList = new ArrayList<>();
+        eList.add(jEService.getEstimate(id));
+        return eList;
+    }
+
+    @GetMapping("/api/v1/estimates/like-name/{name}")
+    public List<JoinEstimateToMst> getEstimateByLikeEstimateName(@PathVariable("name") String name) {
+        return jEService.getLikeEstimateNameList(name);
+    }
+
+    @GetMapping("/api/v1/estimates/like-name/{customer-name}")
+    public List<JoinEstimateToMst> getEstimateByLikeCustomerName(@PathVariable("customer-name") String name) {
+        return jEService.getLikeCustomerNameList(name);
+    }
+
+    @GetMapping("/api/v1/estimates/like-name/{employee-name}")
+    public List<JoinEstimateToMst> getEstimateByLikeEmployeeName(@PathVariable("employee-name") String name) {
+        return jEService.getLikeEmployeeNameList(name);
+    }
+
+    @GetMapping("/api/v1/estimates/like-name/{status}")
+    public List<JoinEstimateToMst> getEstimateByLikeStatus(@PathVariable("status") String status) {
+        return jEService.getLikeStatusList(status);
     }
 
     @PostMapping("/api/v1/estimates")
@@ -40,7 +61,7 @@ public class EstimateController {
 
     }
 
-    @PutMapping("/api/v1/estimates/:id")
+    @PutMapping("/api/v1/estimates/{id}")
     public void updateEstimate() {
 
     }
@@ -50,21 +71,4 @@ public class EstimateController {
         esService.delete(id);
     }
 
-    private List<ViewEstimate> createViewEstimateList(List<Estimate> eList) {
-        List<ViewEstimate> vEList = new ArrayList<>();
-        for (Estimate e : eList) {
-            MstCustomer customer = cService.getCustomer(e.getId());
-            MstEmployee employee = emService.getEmployee(e.getId());
-            vEList.add(new ViewEstimate(
-                e.getId(),
-                e.getEstimateName(),
-                e.getStatus(),
-                customer.getName(),
-                employee.getName(),
-                e.getBudgetedAmount(),
-                e.getEstimateAmount()
-            ));
-        }
-        return vEList;
-    }
 }

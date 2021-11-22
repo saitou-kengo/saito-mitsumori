@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 
 public interface CustomerDao extends Repository {
+    
     //指定したIDのデータを取得
     public MstCustomer selectOne(int cd) throws DataAccessException;
 

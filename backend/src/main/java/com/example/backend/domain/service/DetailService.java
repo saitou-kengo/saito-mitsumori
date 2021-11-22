@@ -1,7 +1,5 @@
 package com.example.backend.domain.service;
 
-import java.util.List;
-
 import com.example.backend.domain.model.EstimateDetail;
 import com.example.backend.domain.repository.jdbc.DetailDaoJdbc;
 
@@ -16,14 +14,6 @@ public class DetailService {
     
     @Autowired
     DetailDaoJdbc dDaojdbc;
-
-    public EstimateDetail getDetail(int id) {
-        return dDaojdbc.selectOne(id);
-    }
-
-    public List<EstimateDetail> getDetailList() {
-        return dDaojdbc.selectAll();
-    }
 
     public void insert(EstimateDetail detail) {
         dDaojdbc.insert(detail);

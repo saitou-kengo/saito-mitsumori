@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 
 public interface EmployeeDao extends Repository {
+        
         //指定したIDのデータを取得
         public MstEmployee selectOne(int cd) throws DataAccessException;
 
