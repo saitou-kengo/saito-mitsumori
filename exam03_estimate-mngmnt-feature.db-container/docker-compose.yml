@@ -8,13 +8,13 @@ services:
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./docker/db/initdb:/docker-entrypoint-initdb.d
     environment:
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS}
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASS}
-      - TZ=${TZ}
+      - MYSQL_ROOT_PASSWORD=pa55
+      - MYSQL_DATABASE=salesworker
+      - MYSQL_USER=saito
+      - MYSQL_PASSWORD=pa55
+      - TZ=Asia/Tokyo
     ports:
-      - ${DB_PORT}:3306
+      - 3306:3306
     command: --innodb-use-native-aio=0
 
 volumes:

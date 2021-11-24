@@ -29,6 +29,7 @@
     <span>
         <input type="button" value="見積に追加" id="add"/>
     </span>
+    <button v-on:click="insertDetail">明細に追加</button>
 </div>
 </template>
 

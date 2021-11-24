@@ -23,15 +23,13 @@ public class EstimateService {
         int customerCd = Integer.parseInt(estimate.get("customerCd"));
         int employeeCd = Integer.parseInt(estimate.get("employeeCd"));
         String status = estimate.get("status");
-        int orderId = Integer.parseInt(estimate.get("orderId"));
         eDaojdbc.insert(new Estimate(
             estimateName,
             estimateAmount,
             budgetedAmount,
             customerCd,
             employeeCd,
-            status,
-            orderId));
+            status));
     }
 
     public void update(Map<String, String> updatedEstimate, int id) {
@@ -41,15 +39,13 @@ public class EstimateService {
         int customerCd = Integer.parseInt(updatedEstimate.get("customerCd"));
         int employeeCd = Integer.parseInt(updatedEstimate.get("employeeCd"));
         String status = updatedEstimate.get("status");
-        int orderId = Integer.parseInt(updatedEstimate.get("orderId"));
         eDaojdbc.update(new Estimate(
             estimateName,
             estimateAmount,
             budgetedAmount,
             customerCd,
             employeeCd,
-            status,
-            orderId),
+            status),
             id);
     }
 

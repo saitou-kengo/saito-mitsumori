@@ -15,7 +15,7 @@ public class EstimateDaoJdbc implements EstimateDao {
     //指定したデータを登録
     public void insert(Estimate estimate) {
         String tableName = Constants.db.ESTIMATE_TBL_NAME.getlabel();
-        String sql = "INSET INTO " + tableName + " VALUE(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSET INTO " + tableName + " VALUE(?,?,?,?,?,?,?,?)";
 
         jdbc.update(sql,
             estimate.getId(),
@@ -25,14 +25,13 @@ public class EstimateDaoJdbc implements EstimateDao {
             estimate.getCustomerCd(),
             estimate.getEmployeeCd(),
             estimate.getEstimateDate(),
-            estimate.getStatus(),
-            estimate.getOrderId());
+            estimate.getStatus());
     }
 
     //データ更新
     public void update(Estimate updatedEstimate, int id) {
         String tableName = Constants.db.ESTIMATE_TBL_NAME.getlabel();
-        String sql = "UPDATE " + tableName + " SET VALUE(?,?,?,?,?,?,?,?,?) WHERE id = ?";
+        String sql = "UPDATE " + tableName + " SET VALUE(?,?,?,?,?,?,?,?) WHERE id = ?";
 
         jdbc.update(sql,
             updatedEstimate.getId(),
@@ -43,7 +42,6 @@ public class EstimateDaoJdbc implements EstimateDao {
             updatedEstimate.getEmployeeCd(),
             updatedEstimate.getEstimateDate(),
             updatedEstimate.getStatus(),
-            updatedEstimate.getOrderId(),
             id);
     }
 

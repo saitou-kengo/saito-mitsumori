@@ -1,26 +1,26 @@
 <template>
 <div>
     <div id="title">
-        顧客検索
+        担当者検索
     </div>
     <br>
     <p>名前を入力してください。</p>
     <span>
-        <label for="customer_name">会社・個人名（部分一致）</label>
-        <input v-model="customerName" type="text" id="customer_name"/>
+        <label for="employee_name">担当者名（部分一致）</label>
+        <input v-model="employeeName" type="text" id="employee_name"/>
         <button v-on:clikc="search">検索</button>
     </span>
     <br>
     <table>
         <tr>
-            <th>顧客コード</th>
-            <th>顧客名</th>
+            <th>担当者コード</th>
+            <th>担当者名</th>
             <th>選択</th>
         </tr>
-        <div v-for="customer in customers" :key="customer.cd">
+        <div v-for="employee in employees" :key="employee.cd">
         <tr>
-            <td>{{ customer.cd }}</td>
-            <td>{{ customer.name }}</td>
+            <td>{{ employee.cd }}</td>
+            <td>{{ employee.name }}</td>
             <td><router-link :to="{ name:'edit',params:{ id : estimate.id }}">選択</router-link></td>
         </tr>
         </div>
@@ -35,23 +35,23 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            customers: [],
+            employees: [],
         }
     },
     methods: {
-        getAllCustomerList: function() {
+        getAllEmployeeList: function() {
             axios
             .get("/api/v1/customers")
             .then((res) => {
                 console.log(res);
-                this.customers = res.data})
+                this.employees = res.data})
             .catch((err) => {
                 console.log("エラー：" + err);
             });
         }
     },
     created() {
-        this.getAllCustomerList();
+        this.getAllEmployeeList();
     }
 }
 </script>
