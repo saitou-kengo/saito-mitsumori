@@ -7,7 +7,7 @@ import com.example.backend.domain.model.MstProduct;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 
-public interface ProductDao extends Repository {
+public interface ProductDao extends Repository<MstProduct, String> {
 
         //指定したIDのデータを取得
         public MstProduct selectOne(int cd) throws DataAccessException;

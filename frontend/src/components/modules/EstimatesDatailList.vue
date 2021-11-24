@@ -10,20 +10,43 @@
             <th>数量</th>
             <th>金額</th>
         </tr>
+        <div v-for="detail in details" :key="detail.id">
         <tr>
-            <td>1</td>
-            <td>テストアイテム</td>
-            <td>5000</td>
-            <td>2</td>
-            <td>10000</td>
+            <td>{{ detail.subId }}</td>
+            <td>{{ detail.productName }}</td>
+            <td>{{ detail.price }}</td>
+            <td>{{ detail.quantity }}</td>
+            <td>{{ detail.totalPrice }}</td>
         </tr>
+        </div>
     </table>
 </div>
 </template>
 
 <script>
-export default {
+import axios from 'axios'
 
+export default {
+    data() {
+        return {
+            details: [],
+        }
+    },
+    methods: {
+        getAllDetailList: function() {
+            axios
+            .get("/api/v1/estimate-details")
+            .then((res) => {
+                console.log(res);
+                this.details = res.data})
+            .catch((err) => {
+                console.log("エラー：" + err);
+            });
+        }
+    },
+    created() {
+        this.getAllDetailList();
+    }
 }
 </script>
 

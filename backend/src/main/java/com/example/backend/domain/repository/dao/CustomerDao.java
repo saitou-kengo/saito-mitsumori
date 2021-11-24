@@ -7,7 +7,7 @@ import com.example.backend.domain.model.MstCustomer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 
-public interface CustomerDao extends Repository {
+public interface CustomerDao extends Repository<MstCustomer, String> {
     
     //指定したIDのデータを取得
     public MstCustomer selectOne(int cd) throws DataAccessException;

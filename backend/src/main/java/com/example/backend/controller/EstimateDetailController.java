@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.backend.domain.model.JoinDetailToMst;
 import com.example.backend.domain.service.DetailService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,13 +36,13 @@ public class EstimateDetailController {
     }
 
     @PostMapping("/api/v1/estimate-details")
-    public void insertEstimate() {
-
+    public void insertEstimate(@RequestParam("detail") Map<String, String> detail) {
+        dService.insert(detail);
     }
 
     @PutMapping("/api/v1/estimate-details/{id}")
-    public void updateEstimate() {
-
+    public void updateEstimate(@RequestParam("detail") Map<String, String> detail, @PathVariable("id") int id) {
+        dService.update(detail, id);
     }
 
     @DeleteMapping("/api/v1/estimate-details/{id}")

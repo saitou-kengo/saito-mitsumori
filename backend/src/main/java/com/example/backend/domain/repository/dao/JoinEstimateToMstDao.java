@@ -7,7 +7,7 @@ import com.example.backend.domain.model.JoinEstimateToMst;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 
-public interface JoinEstimateToMstDao extends Repository {
+public interface JoinEstimateToMstDao extends Repository<JoinEstimateToMst, String> {
 
     //全てのデータを取得
     public List<JoinEstimateToMst> selectAll() throws DataAccessException;

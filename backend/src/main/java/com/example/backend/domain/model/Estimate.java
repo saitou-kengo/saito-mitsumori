@@ -13,4 +13,21 @@ public class Estimate {
     private String estimateDate;
     private String status;
     private int orderId;
+
+    public Estimate(
+        String estimateName,
+        int estimateAmount,
+        int budgetedAmount,
+        int customerCd,
+        int employeeCd,
+        String status,
+        int orderId) {
+            this.estimateName = estimateName;
+            this.estimateAmount = estimateAmount;
+            this.budgetedAmount = budgetedAmount;
+            this.customerCd = customerCd;
+            this.employeeCd = employeeCd;
+            this.status = status;
+            this.orderId = orderId;
+    }
 }

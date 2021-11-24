@@ -5,7 +5,7 @@ import com.example.backend.domain.model.Estimate;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 
-public interface EstimateDao extends Repository {
+public interface EstimateDao extends Repository<Estimate, String> {
 
     //指定したデータを登録
     public void insert(Estimate estimate) throws DataAccessException;

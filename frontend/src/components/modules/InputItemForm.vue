@@ -4,26 +4,26 @@
     <br>
     <span>
         <label for="item_code">商品コード</label>
-        <input type="text" class="search_box" id="item_code"/>
+        <input v-model="productCd" type="text"/>
         <input type="button" value="検索" id="search"/>
     </span>
     <span>
         <label for="item_name">商品名</label>
-        <input type="text" class="search_box" id="item_name"/>
+        <input v-model="productName" type="text"/>
     </span>
     <br>
     <span>
         <label for="price">単価</label>
-        <input type="text" class="search_box" id="price"/>
+        <input v-model="price" type="text"/>
     </span>
     <span>
         <label for="quantity">数量</label>
-        <input type="text" class="search_box" id="quantity"/>
+        <input v-model="quantity" type="text"/>
     </span>
     <br>
     <span>
         <label for="total_price">金額</label>
-        <input type="text" class="search_box" id="total_price"/>
+        <input v-model="totalPrice" type="text"/>
     </span>
     <br>
     <span>
@@ -33,8 +33,33 @@
 </template>
 
 <script>
-export default {
+import axios from 'axios'
 
+export default {
+    data() {
+        return {
+            productCd: "",
+            productName: "",
+            price: "",
+            quantity: "",
+            totalPrice: ""
+        }
+    },
+    methods: {
+        insertDetail: function() {
+            axios
+            .post("/api/v1/estimate-details", {
+                productCd: this.productCd,
+                quantity: this.quantity
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log("エラー：" + err);
+            })
+        }
+    }
 }
 </script>
 

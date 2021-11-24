@@ -14,24 +14,47 @@
             <th>詳細</th>
             <th>編集</th>
         </tr>
+        <div v-for="estimate in estimates" :key="estimate.id">
         <tr>
-            <td>1</td>
-            <td>テスト</td>
-            <td>見積中</td>
-            <td>さいとう</td>
-            <td>けんご</td>
-            <td>200</td>
-            <td>150</td>
-            <td><router-link :to="{name:'detail',params:{id:1}}">詳細</router-link></td>
-            <td><router-link :to="{name:'edit',params:{id:1}}">編集</router-link></td>
+            <td>{{ estimate.id }}</td>
+            <td>{{ estimate.name }}</td>
+            <td>{{ estimate.status }}</td>
+            <td>{{ estimate.customerName }}</td>
+            <td>{{ estimate.employeeName }}</td>
+            <td>{{ estimate.budgetedAmount }}</td>
+            <td>{{ estimate.estimateAmount }}</td>
+            <td><router-link :to="{ name:'detail',params:{ id : estimate.id }}">詳細</router-link></td>
+            <td><router-link :to="{ name:'edit',params:{ id : estimate.id }}">編集</router-link></td>
         </tr>
+        </div>
     </table>
 </div>
 </template>
 
 <script>
-export default {
+import axios from 'axios'
 
+export default {
+    data() {
+        return {
+            estimates: [],
+        }
+    },
+    methods: {
+        getAllEstimateList: function() {
+            axios
+            .get("/api/v1/estimates")
+            .then((res) => {
+                console.log(res);
+                this.estimates = res.data})
+            .catch((err) => {
+                console.log("エラー：" + err);
+            });
+        }
+    },
+    created() {
+        this.getAllEstimateList();
+    }
 }
 </script>
 
