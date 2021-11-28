@@ -1,21 +1,24 @@
 <template>
 <div>
-  <h1>見積登録</h1>
-  <InputEstimateForm/>
-  <InputItemForm/>
-  <button v-on:click="insertEstimate">見積登録</button>
+    <h1>見積登録</h1>
+    <input-estimate-form/>
+    <input-item-form/>
+    <button v-on:click="insertEstimate">見積登録</button>
+    <estimates-datail-list/>
 </div>
 </template>
 
 <script>
 import InputEstimateForm from '../modules/InputEstimateForm.vue'
 import InputItemForm from '../modules/InputItemForm.vue'
+import EstimatesDatailList from '../modules/EstimatesDatailList.vue'
 import axios from 'axios'
 
 export default {
   components: {
     InputEstimateForm,
-    InputItemForm
+    InputItemForm,
+    EstimatesDatailList
   },
       data() {
         return {

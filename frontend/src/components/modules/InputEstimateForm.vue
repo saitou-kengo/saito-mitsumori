@@ -1,5 +1,5 @@
 <template>
-<dev>
+<div>
     <span>
         <label for="estimate_id">見積番号</label>
         <input v-model="estimateId" type="text" id="estimate_id"/>
@@ -36,7 +36,7 @@
         <label for="total_price">合計</label>
         <input v-model="totalPrice" type="text" id="total_price"/>
     </span>
-</dev>
+</div>
 </template>
 
 <script>

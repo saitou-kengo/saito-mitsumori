@@ -9,6 +9,7 @@
             <th>単価</th>
             <th>数量</th>
             <th>金額</th>
+            <th>削除</th>
         </tr>
         <div v-for="detail in details" :key="detail.id">
         <tr>
@@ -17,6 +18,7 @@
             <td>{{ detail.price }}</td>
             <td>{{ detail.quantity }}</td>
             <td>{{ detail.totalPrice }}</td>
+            <td>削除</td>
         </tr>
         </div>
     </table>
@@ -35,9 +37,9 @@ export default {
     methods: {
     getEstimateDetailsListById() {
     axios
-    .get('http://localhost:8080/api/v1/estimate-details/:id', {
+    .get('http://localhost:8080/api/v1/estimate-details/', {
         params: {
-        id: 2
+        id: 1
         }
     })
     .then(res => {

@@ -1,5 +1,5 @@
 <template>
-<dev>
+<div>
     <h2>見積検索</h2>
     <p>検索条件に部分一致した見積情報が結果に表示されます。</p>
     <span id="index">検索条件</span>
@@ -42,7 +42,7 @@
         <button v-on:click:key="getAllDetailListByLikeEmployeeName">検索</button>
     </span>
     <br>
-</dev>
+</div>
 </template>
 
 <script>

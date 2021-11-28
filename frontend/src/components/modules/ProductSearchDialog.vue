@@ -41,7 +41,7 @@ export default {
         }
     },
     methods: {
-        getAllProductList: function() {
+        findall: function() {
             axios
             .get("/api/v1/products")
             .then((res) => {
@@ -52,8 +52,8 @@ export default {
             });
         }
     },
-    created() {
-        this.getAllProductList();
+    mounted() {
+        this.findall();
     }
 }
 </script>

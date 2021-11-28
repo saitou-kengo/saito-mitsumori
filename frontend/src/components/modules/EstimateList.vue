@@ -17,12 +17,12 @@
         <div v-for="estimate in estimates" :key="estimate.id">
         <tr>
             <td>{{ estimate.id }}</td>
-            <td>{{ estimate.name }}</td>
+            <td>{{ estimate.estimateName }}</td>
             <td>{{ estimate.status }}</td>
             <td>{{ estimate.customerName }}</td>
             <td>{{ estimate.employeeName }}</td>
             <td>{{ estimate.budgetedAmount }}</td>
-            <td>{{ estimate.estimateAmount }}</td>
+            <td>{{ estimate.amount }}</td>
             <td><router-link :to="{ name:'detail',params:{ id : estimate.id }}">詳細</router-link></td>
             <td><router-link :to="{ name:'edit',params:{ id : estimate.id }}">編集</router-link></td>
         </tr>
@@ -37,25 +37,27 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            estimates: [],
-        }
+            estimates: null
+        };
     },
     methods: {
-        getAllEstimateList: function() {
-            axios
-            .get("/api/v1/estimates")
-            .then((res) => {
-                console.log(res);
-                this.estimates = res.data})
-            .catch((err) => {
-                console.log("エラー：" + err);
-            });
+        getEstimatesList() {
+        axios
+        .get('http://localhost:8080/api/v1/estimates')
+        .then(res => {
+            this.estimates = res.data;
+            console.log("retrieve all Estimate");
+        })
+        .catch(err => {
+            console.log('エラー：' + err);
+        });
         }
     },
-    created() {
-        this.getAllEstimateList();
+    created: function() {
+        this.getEstimatesList();
     }
 }
+
 </script>
 
 <style>

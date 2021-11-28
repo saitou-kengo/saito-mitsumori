@@ -1,18 +1,17 @@
 <template>
 <div>
   <h1>見積編集</h1>
-  <InputEstimateForm/>
-  <InputItemForm/>
+  <input-estimate-form/>
+  <input-item-form/>
   <button v-on:click="updataEstimate">見積更新</button>
-  <EstimatesDatailList/>
+  <edit-estimate-details-list/>
 </div>
 </template>
 
 <script>
 import InputEstimateForm from '../modules/InputEstimateForm.vue'
 import InputItemForm from '../modules/InputItemForm.vue'
-import EstimatesDatailList from '../modules/EstimatesDatailList.vue'
-import ProductSearchDialog from '../modules/ProductSearchDialog.vue'
+import EditEstimateDetailsList from '../modules/EditEstimateDetailsList.vue'
 import axios from 'axios'
 
 export default {
@@ -20,8 +19,7 @@ export default {
   components: {
     InputEstimateForm,
     InputItemForm,
-    EstimatesDatailList,
-    ProductSearchDialog
+    EditEstimateDetailsList
   },
   data() {
     return {
