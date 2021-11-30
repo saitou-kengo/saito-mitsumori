@@ -8,7 +8,6 @@ import com.example.backend.domain.service.MstProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,12 +25,12 @@ public class MstProductsController {
         return pService.getProductList();
     }
 
-    @GetMapping("/products/:cd")
-    public List<MstProducts> getProductByCd() {
-        return pService.getProductList();
+    @GetMapping(value = "/products/:cd", params = "cd")
+    public MstProducts getProductByCd(@RequestParam int cd) {
+        return pService.getProduct(cd);
     }
 
-    @GetMapping(value = "/products/:name", params = "name")
+    @GetMapping("/products/name/:name")
     public List<MstProducts> getProductByLikeName(@RequestParam String name) {
         return pService.getLikeProductList(name);
     }

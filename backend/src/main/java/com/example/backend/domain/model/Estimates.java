@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,6 +18,7 @@ import lombok.experimental.Tolerate;
 @Data
 public class Estimates {
     @Id
+    @GeneratedValue
     @Column(name = "id")
     private int id;
     @Column(name = "name")

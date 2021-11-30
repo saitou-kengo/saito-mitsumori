@@ -17,7 +17,7 @@ public class MstProductsService {
     private MstProductsRepository mPRepository;
 
     public MstProducts getProduct(int cd) {
-        return mPRepository.findById(cd).orElseThrow();
+        return mPRepository.getById(cd);
     }
 
     public List<MstProducts> getProductList() {

@@ -8,7 +8,6 @@ import com.example.backend.domain.service.MstEmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,12 +24,12 @@ public class MstEmployeesController {
         return eService.getEmployeeList();
     }
 
-    @GetMapping("/employees/:cd")
-    public List<MstEmployees> getEmployeeByCd() {
-        return eService.getEmployeeList();
+    @GetMapping(value = "/employees/:cd", params = "cd")
+    public MstEmployees getEmployeeByCd(@RequestParam int cd) {
+        return eService.getEmployee(cd);
     }
 
-    @GetMapping(value = "/employees/name/:name", params = "name")
+    @GetMapping("/employees/name/:cd")
     public List<MstEmployees> getEmployeeByLikeName(@RequestParam String name) {
         return eService.getLikeEmployeeList(name);
     }

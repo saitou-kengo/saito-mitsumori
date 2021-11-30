@@ -1,31 +1,83 @@
 <template>
 <div>
   <h1>見積詳細</h1>
-  <router-link :to="{ name:'edit',params:{ id : $route.params.id }}">編集</router-link>
-  <button v-on:click="deleteEstimate">削除</button>
-  <estimates-datail-list/>
+  <detail-estimate-form :id="estimateId" :estimate="estimate" :overAmount="overAmount"/>
+  <router-link :to="{ name:'edit',params:{ id : estimateId }}">編集</router-link>
+  <button @click="deleteEstimate">削除</button>
+  <estimates-datail-list :details="details"/>
 </div>
 </template>
 
 <script>
-import EstimatesDatailList from '../modules/EstimatesDatailList.vue'
-import axios from 'axios'
+import EstimatesDatailList from '../modules/ListView/EstimatesDatailList.vue'
+import DetailEstimateForm from '../modules/Form/DetailEstimateForm.vue'
 
 export default {
   components: {
-    EstimatesDatailList
+    EstimatesDatailList,
+    DetailEstimateForm
+  },
+  data() {
+    return {
+      estimateId: this.$route.params.id,
+      estimate: null,
+      details: null,
+    }
+  },
+  computed: {
+    overAmount: function() {
+      return this.estimate.budgetedAmount - this.estimate.amount;
+    }
   },
   methods: {
     deleteEstimate: function() {
-      axios
-      .delete("/api/v1/estimates/{id}")
+      this.$axios
+      .delete("http://localhost:8080/api/v1/estimate-details/:id", {
+        params: {
+          id: this.estimateId
+        }
+      })
       .then((res) => {
-        console.log(res);
+        console.log(res + 'delete Estimate');
       })
       .catch((err) => {
         console.log("エラー：" + err);
       })
+    },
+    getEstimateById: function() {
+      this.$axios
+      .get('http://localhost:8080/api/v1/estimates/:id', {
+        params: {
+          id: this.estimateId
+        }
+      })
+      .then(res => {
+        this.estimate = res.data;
+        console.log('retrieve a Estimate by :id');
+      })
+      .catch(err => {
+        console.log('エラー：' + err);
+      })
+    },
+    getEstimateDetailsListById: function() {
+    this.$axios
+    .get('http://localhost:8080/api/v1/estimate-details/:id', {
+        params: {
+        id: this.estimateId
+        }
+    })
+    .then(res => {
+        this.details = res.data;
+        console.log(res.data);
+    })
+    .catch(err => {
+        console.log('エラー：' + err);
+    });
     }
+  },
+  created: function() {
+    this.getEstimateById();
+    this.getEstimateDetailsListById();
   }
 }
 </script>

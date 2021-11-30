@@ -17,7 +17,7 @@ public class MstEmployeesService {
     private MstEmployeesRepository mERepository;
 
     public MstEmployees getEmployee(int cd) {
-        return mERepository.findById(cd).orElseThrow();
+        return mERepository.getById(cd);
     }
 
     public List<MstEmployees> getEmployeeList() {

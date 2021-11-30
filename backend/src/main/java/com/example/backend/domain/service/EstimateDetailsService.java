@@ -2,7 +2,6 @@ package com.example.backend.domain.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.backend.domain.model.EstimateDetails;
 import com.example.backend.domain.model.ViewEstimateDetails;
@@ -31,6 +30,7 @@ public class EstimateDetailsService {
             int price = mPRepo.getById(eD.getProductCd()).getPrice();
             vEDList.add(new ViewEstimateDetails(
                 eD.getId(),
+                eD.getSubId(),
                 productName,
                 price,
                 eD.getQuantity()));
@@ -38,16 +38,15 @@ public class EstimateDetailsService {
         return vEDList;
     }
 
-    public List<ViewEstimateDetails> getAllDetailListById(int id) {
-        Optional<EstimateDetails> eOptional = eDRepo.findById(id);
-        List<EstimateDetails> eDList = new ArrayList<>();
+    public List<ViewEstimateDetails> getAllDetailListByEstimateId(int id) {
+        List<EstimateDetails> eDList = eDRepo.findByEstimateId(id);
         List<ViewEstimateDetails> vEDList = new ArrayList<>();
-        eOptional.ifPresent(eDList::add);
         for (EstimateDetails eD : eDList) {
             String productName = mPRepo.findById(eD.getProductCd()).orElseThrow().getName();
             int price = mPRepo.findById(eD.getProductCd()).orElseThrow().getPrice();
             vEDList.add(new ViewEstimateDetails(
                 eD.getId(),
+                eD.getSubId(),
                 productName,
                 price,
                 eD.getQuantity()));
@@ -55,12 +54,21 @@ public class EstimateDetailsService {
         return vEDList;
     }
 
-    public void insert(EstimateDetails eDetails) {
-        eDRepo.save(eDetails);
+    public void insert(int estimateId, int productCd, int quantity) {
+        eDRepo.save(EstimateDetails.builder()
+        .estimateId(estimateId)
+        .productCd(productCd)
+        .quantity(quantity)
+        .build());
     }
 
-    public void update(EstimateDetails eDetails) {
-        eDRepo.save(eDetails);
+    public void update(int id, int estimateId, int productCd, int quantity) {
+        eDRepo.save(EstimateDetails.builder()
+        .id(id)
+        .estimateId(estimateId)
+        .productCd(productCd)
+        .quantity(quantity)
+        .build());
     }
 
     public void deleteById(int id) {

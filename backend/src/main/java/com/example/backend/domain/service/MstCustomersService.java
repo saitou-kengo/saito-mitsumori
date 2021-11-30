@@ -17,7 +17,7 @@ public class MstCustomersService {
     private MstCustomersRepository mCRepository;
 
     public MstCustomers getCustomer(int cd) {
-        return mCRepository.findById(cd).orElseThrow();
+        return mCRepository.getById(cd);
     }
 
     public List<MstCustomers> getCustomerList() {

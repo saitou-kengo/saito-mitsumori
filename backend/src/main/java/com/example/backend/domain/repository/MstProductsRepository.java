@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MstProductsRepository extends JpaRepository<MstProducts, Integer> {
 
-    List<MstProducts> findByNameLike(String name);
+    public List<MstProducts> findByNameLike(String name);
 
 }

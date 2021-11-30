@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import com.example.backend.domain.model.EstimateDetails;
 import com.example.backend.domain.model.ViewEstimateDetails;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,21 +31,26 @@ public class EstimateDetailsController {
 
     @GetMapping(value="/estimate-details/:id", params = "id")
     public List<ViewEstimateDetails> getAllDetailListById(@RequestParam int id) {
-        return dService.getAllDetailListById(id);
+        return dService.getAllDetailListByEstimateId(id);
     }
 
     @PostMapping("/estimate-details")
-    public void insertEstimate(@RequestParam EstimateDetails detail) {
-        dService.insert(detail);
+    public void insertDetails(@RequestParam List<EstimateDetails> details) {
+        for (EstimateDetails e : details) {
+            dService.insert(e.getEstimateId(), e.getProductCd(), e.getQuantity());
+        }
     }
 
-    @PutMapping("/estimate-details/{id}")
-    public void updateEstimate(@RequestParam EstimateDetails detail) {
-        dService.update(detail);
+    @PutMapping("/estimate-details/:id")
+    public void updateDetail(@RequestParam int id,
+        @RequestParam int estimateId,
+        @RequestParam int productCd,
+        @RequestParam int quantity) {
+        dService.update(id, estimateId, productCd, quantity);
     }
 
     @DeleteMapping("/estimate-details/:id")
-    public void deleteEstimateById(@RequestParam int id) {
+    public void deleteDetailById(@RequestParam int id) {
         dService.deleteById(id);
     }
 }

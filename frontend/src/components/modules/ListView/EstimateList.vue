@@ -14,8 +14,8 @@
             <th>詳細</th>
             <th>編集</th>
         </tr>
-        <div v-for="estimate in estimates" :key="estimate.id">
         <tr>
+        <div v-for="estimate in estimates" :key="estimate.id">
             <td>{{ estimate.id }}</td>
             <td>{{ estimate.estimateName }}</td>
             <td>{{ estimate.status }}</td>
@@ -25,42 +25,31 @@
             <td>{{ estimate.amount }}</td>
             <td><router-link :to="{ name:'detail',params:{ id : estimate.id }}">詳細</router-link></td>
             <td><router-link :to="{ name:'edit',params:{ id : estimate.id }}">編集</router-link></td>
-        </tr>
         </div>
+        </tr>
     </table>
 </div>
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
-    data() {
-        return {
-            estimates: null
-        };
-    },
-    methods: {
-        getEstimatesList() {
-        axios
-        .get('http://localhost:8080/api/v1/estimates')
-        .then(res => {
-            this.estimates = res.data;
-            console.log("retrieve all Estimate");
-        })
-        .catch(err => {
-            console.log('エラー：' + err);
-        });
-        }
-    },
-    created: function() {
-        this.getEstimatesList();
-    }
+    props: ['estimates']
 }
 
 </script>
 
 <style>
+table {
+    table-layout:fixed;
+    width: 80%;
+    border-collapse:  collapse;
+}
+
+th,td {
+    border: solid 1px;
+}
+
 #index {
     display: flex;
     align-items: center;

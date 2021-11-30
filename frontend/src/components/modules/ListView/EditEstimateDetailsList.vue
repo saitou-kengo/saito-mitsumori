@@ -9,6 +9,7 @@
             <th>単価</th>
             <th>数量</th>
             <th>金額</th>
+            <th>削除</th>
         </tr>
         <div v-for="detail in details" :key="detail.id">
         <tr>
@@ -17,6 +18,7 @@
             <td>{{ detail.price }}</td>
             <td>{{ detail.quantity }}</td>
             <td>{{ detail.totalPrice }}</td>
+            <td><span @click="deleteDetail(detail.id)">削除</span></td>
         </tr>
         </div>
     </table>
@@ -24,33 +26,14 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
-    data() {
-        return {
-            details: null
-        }
-    },
+    props: ['details'],
     methods: {
-    getEstimateDetailsListById() {
-    axios
-    .get('http://localhost:8080/api/v1/estimate-details/:id', {
-        params: {
-        id: 2
+        deleteDetail: function(id) {
+            this.$emit('delete-detail', id);
         }
-    })
-    .then(res => {
-        this.details = res.data;
-        console.log(res.data);
-    })
-    .catch(err => {
-        console.log('エラー：' + err);
-    });
-    }},
-    created: function() {
-        this.getEstimateDetailsListById();
-  }
+    }
 }
 </script>
 
