@@ -80,7 +80,7 @@ public class EstimatesService {
     }
 
     public void insert(String name, int amount, int budgetedAmount, int customerCd, int employeeCd, String status) {
-        eRepo.save(Estimates.builder()
+        eRepo.saveAndFlush(Estimates.builder()
             .name(name)
             .amount(amount)
             .budgetedAmount(budgetedAmount)
@@ -91,7 +91,7 @@ public class EstimatesService {
     }
 
     public void update(int id, String name, int amount, int budgetedAmount, int customerCd, int employeeCd, String status) {
-        eRepo.save(Estimates.builder()
+        eRepo.saveAndFlush(Estimates.builder()
         .id(id)
         .name(name)
         .amount(amount)
@@ -115,7 +115,9 @@ public class EstimatesService {
                 e.getId(),
                 e.getName(),
                 status,
+                e.getCustomerCd(),
                 customerName,
+                e.getEmployeeCd(),
                 employeeName,
                 e.getAmount(),
                 e.getBudgetedAmount()

@@ -35,11 +35,12 @@ public class EstimateDetailsController {
     }
 
     @PostMapping("/estimate-details")
-    public void insertDetails(@RequestParam List<EstimateDetails> details) {
-        for (EstimateDetails e : details) {
-            System.out.println(e);
-            // dService.insert(e.getEstimateId(), e.getProductCd(), e.getQuantity());
-        }
+    public void insertDetails(@RequestParam List<String> details) {
+        System.out.println(details);
+        // for (EstimateDetails e : details) {
+        //     System.out.println(e);
+        //     // dService.insert(e.getEstimateId(), e.getProductCd(), e.getQuantity());
+        // }
     }
 
     @PutMapping("/estimate-details/:id")

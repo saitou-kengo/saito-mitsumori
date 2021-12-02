@@ -60,20 +60,47 @@ public class EstimatesController {
     }
 
     @PostMapping("/estimates")
-    public void insertEstimate(@RequestParam String estimate) {
-        System.out.println(estimate);
-        // eService.insert(name, amount, budgetedAmount, customerCd, employeeCd, status);
+    public void insertEstimate(
+            @RequestParam(name="name", required = false) String name,
+            @RequestParam(name="amount", required = false) int amount,
+            @RequestParam(name="budgetedAmount", required = false) int budgetedAmount,
+            @RequestParam(name="customerCd", required = false) int customerCd,
+            @RequestParam(name="employeeCd", required = false) int employeeCd,
+            @RequestParam(name="status", required = false) String status) {
+                System.out.println(name + "：");
+                System.out.println(amount + "：");
+                System.out.println(budgetedAmount + "：");
+                System.out.println(customerCd + "：");
+                System.out.println(employeeCd + "：");
+                System.out.println(status + "：");
+        // eService.insert(
+        //     name,
+        //     amount,
+        //     budgetedAmount,
+        //     customerCd,
+        //     employeeCd,
+        //     status);
     }
 
     @PutMapping("/estimates/:id")
-    public void updateEstimate(@RequestParam int id,
+    public void updateEstimate(
+        @RequestParam int id,
         @RequestParam String name,
         @RequestParam int amount,
         @RequestParam int budgetedAmount,
         @RequestParam int customerCd,
         @RequestParam int employeeCd,
         @RequestParam String status) {
-        eService.update(id, name, amount, budgetedAmount, customerCd, employeeCd, status);
+            System.out.println(id);
+            System.out.println(name);
+        eService.update(
+        id,
+        name,
+        amount,
+        budgetedAmount,
+        customerCd,
+        employeeCd,
+        status);
     }
 
     @DeleteMapping("/estimates/:id")

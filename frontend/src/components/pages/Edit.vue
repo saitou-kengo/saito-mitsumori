@@ -1,5 +1,6 @@
 <template>
 <div class="container">
+  {{ estimate }}
   <h1>見積編集</h1>
   <edit-estimate-form :estimate="estimate"/>
   <input-item-form/>
@@ -36,18 +37,16 @@ export default {
   },
   methods: {
     updataEstimate: function() {
+      let params = new URLSearchParams();
+      params.append('id', this.estimateId);
+      params.append('name', this.estimate.estimateName);
+      params.append('amount', this.estimate.amount);
+      params.append('budgetedAmount', this.estimate.budgetedAmount);
+      params.append('customerCd', this.estimate.customerCd);
+      params.append('employeeCd', this.estimate.employeeCd);
+      params.append('status', this.estimate.status);
       this.$axios
-      .put('http://localhost:8080/api/v1/estimates/:id', {
-        params: {
-          id: this.estimateId,
-          estimateName: this.estimate.estimateName,
-          status: this.estimate.status,
-          customerName: this.estimate.customerName,
-          employeeName: this.estimate.employeeName,
-          budgetedAmount: this.estimate.budgetedAmount,
-          amount: this.estimate.amount,
-        }
-      })
+      .put('http://localhost:8080/api/v1/estimates/:id', params)
       .then((res) => {
         this.$router.push('/');
         alert('見積情報を更新しました')

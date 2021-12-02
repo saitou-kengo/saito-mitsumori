@@ -15,7 +15,7 @@
         </thead>
         <tbody>
         <tr v-for="detail in details" :key="detail.id">
-            <td id="subId">{{ detail.id }}</td>
+            <td id="subId">{{ detail.subId }}</td>
             <td id="productName">{{ detail.productName }}</td>
             <td id="price">{{ detail.price }}</td>
             <td id="quantity">{{ detail.quantity }}</td>

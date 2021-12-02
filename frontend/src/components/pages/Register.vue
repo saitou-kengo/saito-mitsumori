@@ -10,7 +10,9 @@
         @add-detail="addDetails"
     />
     <button @click="registerEstimate" class="btn btn-warning">見積登録</button>
-    <edit-estimate-details-list :details="details"/>
+    <edit-estimate-details-list :details="details"
+        @delete-detail="removeDetail"
+    />
 </div>
 </template>
 
@@ -34,40 +36,43 @@ export default {
     },
     methods: {
     insertEstimate: function() {
+        let params = new URLSearchParams();
+        params.append('name', this.estimate.estimateName);
+        params.append('amount', this.estimate.amount);
+        params.append('budgetedAmount', this.estimate.budgetedAmount);
+        params.append('customerCd', this.estimate.customer.cd);
+        params.append('employeeCd', this.estimate.employee.cd);
+        params.append('status', this.estimate.status);
         this.$axios
-        .post("http://localhost:8080/api/v1/estimates", {
-            params: {
-                estimate: this.estimate.estimateName
-            }
+        .post('http://localhost:8080/api/v1/estimates', params)
+        .then(res => {
+            console.log(res.data + 'create new Estimate')
+        }
+        )
+        .catch((err) => {
+            alert('見積登録失敗')
+            console.log("エラー：" + err);
         })
-            .then((res) => {
-                alert('見積登録成功')
-                console.log(res + 'create new Estimate');
-            })
-            .catch((err) => {
-                alert('見積登録失敗')
-                console.log("エラー：" + err);
-            })
     },
     insertDetail() {
+        const convertDetails = Object.assign({}, this.estimate);
         this.$axios
         .post('http://localhost:8080/api/v1/estimate-details', {
             params: {
-                details: this.details
+                details: convertDetails
             }
             })
-        .then(res => {
-            console.log(res.data + 'create new EstimateDetail');
-        })
+        .then(
+            console.log('create new EstimateDetail')
+        )
         .catch(err => {
             console.log('エラー：' + err);
         })
     },
     registerEstimate: function() {
-        console.log('インサート:', this.estimate);
         this.insertEstimate();
-        this.insertDetail();
-        this.$router.go({path: this.$router.currentRoute.path, force: true})
+        // this.insertDetail();
+        // this.$router.go({path: this.$router.currentRoute.path, force: true})
     },
     addDetails: function(...inputs) {
         const [inputDetail, inputProduct, totalPrice] = inputs;
@@ -83,7 +88,8 @@ export default {
         this.details.push(initDetail);
     },
     removeDetail: function(index) {
-        this.details.splice(index,index);
+        console.log(index + '削除した');
+        this.details.splice(index - 1, 1);
     }
     }
 }

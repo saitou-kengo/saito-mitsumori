@@ -1,5 +1,6 @@
 <template>
 <div class="container">
+  {{ this.estimateId }}
   <h1>見積詳細</h1>
   <detail-estimate-form :id="estimateId" :estimate="estimate" :overAmount="overAmount"/>
   <router-link :to="{ name:'edit',params:{ id : estimateId }}" tag="button" class="btn btn-success">編集</router-link>
@@ -32,17 +33,17 @@ export default {
   methods: {
     deleteEstimate: function() {
       this.$axios
-      .delete("http://localhost:8080/api/v1/estimate-details/:id", {
+      .delete('http://localhost:8080/api/v1/estimates/:id', {
         params: {
           id: this.estimateId
         }
       })
-      .then((res) => {
+      .then(res => {
         alert('見積を削除しました')
-        this.$router.push('/');
-        console.log(res + 'delete Estimate');
+        // this.$router.push('/');
+        console.log(res.data + 'delete Estimate');
       })
-      .catch((err) => {
+      .catch(err => {
         alert('見積の削除に失敗しました')
         console.log("エラー：" + err);
       })
