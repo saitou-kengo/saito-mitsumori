@@ -1,20 +1,20 @@
 <template>
+<div class="container">
 <header id="header">
     <link href='https://css.gg/layout-list.css' rel='stylesheet'>
     <link href='https://css.gg/add.css' rel='stylesheet'>
     <div class="title">
         販売管理システム
+        <p>SALEWORKERS</p>
     </div>
-    <div class="subtitle">
-        SALEWORKERS
-    </div>
-    <div class="menu">
+    <div class="menu form-group form-inline">
         <ul id="nav">
             <li><i class="gg-layout-list"></i><router-link to="/">見積検索</router-link></li>
             <li><i class="gg-add"></i><router-link to="/estimates/new">見積登録</router-link></li>
         </ul>
     </div>
 </header>
+</div>
 </template>
 
 <style>
@@ -33,8 +33,7 @@
         margin-top: 15px;
     }
 
-    .subtitle {
-        color: white;
+    #subtitle {
         font-size: 12pt;
     }
 

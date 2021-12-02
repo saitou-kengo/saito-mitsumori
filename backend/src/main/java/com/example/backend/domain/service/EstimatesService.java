@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.backend.constants.EstimateStatus;
 import com.example.backend.domain.model.Estimates;
 import com.example.backend.domain.model.ViewEstimates;
 import com.example.backend.domain.repository.EstimatesRepository;
@@ -48,8 +49,8 @@ public class EstimatesService {
         return eVList;
     }
 
-    public List<ViewEstimates> getViewEstimateListByLikeName(String name) {
-        List<Estimates> eList = eRepo.findByNameLike(name);
+    public List<ViewEstimates> getViewEstimateListByContainingName(String name) {
+        List<Estimates> eList = eRepo.findByNameContaining(name);
         List<ViewEstimates> eVList = new ArrayList<>();
         convertEstimateListToViewEstimateList(eList, eVList);
         return eVList;
@@ -109,10 +110,11 @@ public class EstimatesService {
         for (Estimates e : eList) {
             String customerName = getCustomerName(e);
             String employeeName = getEmployeeName(e);
+            String status = EstimateStatus.findByIndex(Integer.parseInt(e.getStatus())).getlabel();
             eVList.add(new ViewEstimates(
                 e.getId(),
                 e.getName(),
-                e.getStatus(),
+                status,
                 customerName,
                 employeeName,
                 e.getAmount(),

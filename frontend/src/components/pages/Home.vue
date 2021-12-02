@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="container">
     <estimate-search-form 
         @search-by-like-id="searchByLikeId"
         @search-by-like-name="searchByLikeName"

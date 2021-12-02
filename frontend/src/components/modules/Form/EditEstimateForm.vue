@@ -1,49 +1,56 @@
 <template>
-<div>
-    <span>
-        <label for="estimate_id">見積番号</label>
+<div class="container">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">見積番号</span>
+        </div>
         <input v-if="estimate" v-model="estimate.id" type="text" id="estimate_id" disabled="disabled"/>
-    </span>
-    <br>
-    <span>
-        <label for="estimate_name">見積案件名</label>
-        <input v-if="estimate" v-model="estimate.estimateName" type="text" id="estimate_name"/>
-    </span>
-    <span>
-        <label for="status">見積ステータス</label>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">見積案件名</span>
+        </div>
+        <input v-if="estimate" v-model="estimate.estimateName" type="text" id="estimate_name" placeholder="入力してください"/>
+        <div class="input-group-prepend">
+            <span class="input-group-text">見積ステータス</span>
+        </div>
         <input v-if="estimate" v-model="estimate.status" type="text" id="status" disabled="disabled"/>
-    </span>
-    <br>
-    <span>
-        <label for="customer_name">顧客名</label>
-        <input v-if="estimate" v-model="estimate.customerName" type="text" id="customer_name" disabled="disabled"/>
-        <button @click="showCustomerSearchDialog">顧客検索</button>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">顧客名</span>
+        </div>
+        <input v-if="estimate" v-model="estimate.customerName" type="text" id="customer_name" disabled="disabled" placeholder="選択してください"/>
+        <button @click="showCustomerSearchDialog" class="btn btn-primary">顧客検索</button>
         <customer-search-dialog ref="cDialog"
             @select-customer='customerName = $event'
         />
-    </span>
-    <span>
-        <label for="employee_name">担当者名</label>
-        <input v-if="estimate" v-model="estimate.employeeName" type="text" id="employee_name" disabled="disabled"/>
-        <button @click="showEmployeeSearchDialog">担当者選択</button>
+        <div class="input-group-prepend">
+            <span class="input-group-text">担当者名</span>
+        </div>
+        <input v-if="estimate" v-model="estimate.employeeName" type="text" id="employee_name" disabled="disabled" placeholder="選択してください"/>
+        <button @click="showEmployeeSearchDialog" class="btn btn-primary">担当者検索</button>
         <employee-search-dialog ref="eDialog"
             @select-employee='employeeName = $event'
         />
-    </span>
+    </div>
     <br>
-    <span>
-        <label for="amount">予算金額</label>
-        <input v-if="estimate" v-model="estimate.amount" type="text" id="amount"/>
-    </span>
-    <span>
-        <label for="over_amount">予算超過額</label>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">予算金額</span>
+        </div>
+        <input v-if="estimate" v-model="estimate.amount" type="text" id="amount" placeholder="入力してください"/>
+        <div class="input-group-prepend">
+            <span class="input-group-text">予算超過額</span>
+        </div>
         <input v-if="estimate" v-model="overAmount" type="text" id="over_amount" disabled="disabled"/>
-    </span>
-    <br>
-    <span>
-        <label for="budgeted_amount">合計</label>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">合計</span>
+        </div>
         <input v-if="estimate" v-model="estimate.budgetedAmount" type="text" id="budgeted_amount" disabled="disabled"/>
-    </span>
+    </div>
 </div>
 </template>
 

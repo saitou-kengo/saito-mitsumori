@@ -1,33 +1,38 @@
 <template>
-<div>
+<div class="container">
     <div id="overlay" v-show="showFlag">
     <div id="dialog">
-    <div id="title">
+    <div class="form-group form-inline" v id="title">
         商品検索
     </div>
     <br>
     <p>商品名を入力してください。</p>
-    <span>
-        <label for="product_name">商品名（部分一致）</label>
-        <input v-model="product.name" type="text" id="product_name"/>
-        <button @click="getProductListByLikeName">検索</button>
-    </span>
-    <br>
-    <table>
-        <tr>
-            <th>商品コード</th>
-            <th>商品名</th>
-            <th>単価</th>
-            <th>選択</th>
-        </tr>
-        <div v-for="product in products" :key="product.cd">
-        <tr>
-            <td>{{ product.cd }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.price }}</td>
-            <td><span @click="closeDialog(product)">選択</span></td>
-        </tr>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">商品名（部分一致）</span>
         </div>
+        <input v-model="product.name" type="text" id="product_name" placeholder="入力してください"/>
+        <button @click="getProductListByLikeName" class="btn btn-primary">検索</button>
+    </div>
+    <table class="table table-bordered">
+        <thead class="thead-lignt">
+            <tr>
+                <th id="productCd">商品コード</th>
+                <th id="productName">商品名</th>
+                <th id="price">単価</th>
+                <th id="select">選択</th>
+            </tr>
+        </thead>
+        <tbody>
+        <div v-for="product in products" :key="product.cd">
+            <tr>
+                <td id="productCd">{{ product.cd }}</td>
+                <td id="productName">{{ product.name }}</td>
+                <td id="price">{{ product.price }}</td>
+                <td id="select"><span @click="closeDialog(product.cd, product.name, product.price)">選択</span></td>
+            </tr>
+        </div>
+        </tbody>
     </table>
     </div>
     </div>
@@ -43,7 +48,7 @@ export default {
             products: null,
             product: {
                 productCd: null,
-                productName: "商品名を入力してください",
+                productName: null,
                 price: null
             },
             showFlag: false
@@ -77,8 +82,8 @@ export default {
         showDialog: function() {
             this.showFlag = true;
         },
-        closeDialog: function(product) {
-            this.$emit('select-product', product);
+        closeDialog: function(productCd, productName, price) {
+            this.$emit('select-product', productCd, productName, price);
             this.showFlag = false;
         }
     },
@@ -89,6 +94,31 @@ export default {
 </script>
 
 <style>
+table {
+    margin: auto;
+}
+
+tbody {
+    overflow: scroll;
+}
+
+#productCd {
+    width: 15%;
+}
+
+#productName {
+    width: 50%;
+}
+
+#price {
+    width: 20%;
+}
+
+#select {
+    width: 15%;
+}
+
+
 #overlay{
     z-index: 1;
     position: fixed;

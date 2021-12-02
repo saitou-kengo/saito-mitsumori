@@ -1,31 +1,36 @@
 <template>
-<div>
+<div class="container">
     <div id="overlay" v-show="showFlag">
     <div id="dialog">
-    <div id="title">
+    <div class="form-group form-inline"  id="title">
         担当者検索
     </div>
     <br>
     <p>名前を入力してください。</p>
-    <span>
-        <label for="employee_name">担当者名（部分一致）</label>
-        <input v-model="employeeName" type="text" id="employee_name"/>
-        <button @click="getEmployeeListByLikeName">検索</button>
-    </span>
-    <br>
-    <table>
-        <tr>
-            <th>担当者コード</th>
-            <th>担当者名</th>
-            <th>選択</th>
-        </tr>
-        <div v-for="employee in employees" :key="employee.cd">
-        <tr>
-            <td>{{ employee.cd }}</td>
-            <td>{{ employee.name }}</td>
-            <td><span @click="closeDialog(employee.name)">選択</span></td>
-        </tr>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">担当者名（部分一致）</span>
         </div>
+        <input v-model="employeeName" type="text" id="employee_name" placeholder="入力してください"/>
+        <button @click="getEmployeeListByLikeName" class="btn btn-primary">検索</button>
+    </div>
+    <table class="table table-bordered">
+        <thead class="thead-lignt">
+            <tr>
+                <th id="employeeCd">担当者コード</th>
+                <th id="employeeName">担当者名</th>
+                <th id="select">選択</th>
+            </tr>
+        </thead>
+        <tbody>
+        <div v-for="employee in employees" :key="employee.cd">
+            <tr>
+                <td id="employeeCd">{{ employee.cd }}</td>
+                <td id="employeeName">{{ employee.name }}</td>
+                <td id="select"><span @click="closeDialog(employee.cd, employee.name)">選択</span></td>
+            </tr>
+        </div>
+        </tbody>
     </table>
     </div>
     </div>
@@ -38,7 +43,7 @@ export default {
     data() {
         return {
             employees: null,
-            employeeName: "入力してください",
+            employeeName: null,
             showFlag: false
         }
     },
@@ -70,8 +75,8 @@ export default {
         showDialog: function() {
             this.showFlag = true;
         },
-        closeDialog: function(employeeName) {
-            this.$emit('select-employee', employeeName);
+        closeDialog: function(employeeCd, employeeName) {
+            this.$emit('select-employee', employeeCd, employeeName);
             this.showFlag = false;
         }
     },
@@ -82,6 +87,26 @@ export default {
 </script>
 
 <style>
+table {
+    margin: auto;
+}
+
+tbody {
+    overflow: scroll;
+}
+
+#employeeCd {
+    width: 25%;
+}
+
+#employeeName {
+    width: 50%;
+}
+
+#select {
+    width: 25%;
+}
+
 #overlay{
     z-index: 1;
     position: fixed;

@@ -1,53 +1,58 @@
 <template>
-<div>
+<div class="container">
     <h2>見積検索</h2>
     <p>検索条件に部分一致した見積情報が結果に表示されます。</p>
     <span id="index">検索条件</span>
     <br>
-    <span>
-        <label for="estimate_id">見積番号</label>
-        <input v-model="estimateId" type="text" id="estimate_id"/>
-        <button @click="searchByLikeId">検索</button>
-    </span>
-    <br>
-    <span>
-        <label for="estimate_name">案件名</label>
-        <input v-model="estimateName" type="text" id="estimate_name"/>
-        <button @click="searchByLikeName">検索</button>
-    </span>
-    <br>
-    <span>
-        <label for="status">見積ステータス</label>
-        <select v-model="status" id="status">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">見積番号</span>
+        </div>
+        <input v-model="estimateId" type="text" id="estimate_id" placeholder="入力してください"/>
+        <button @click="searchByLikeId" class="btn btn-primary">検索</button>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">案件名</span>
+        </div>
+        <input v-model="estimateName" type="text" id="estimate_name" placeholder="入力してください"/>
+        <button @click="searchByLikeName" class="btn btn-primary">検索</button>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">見積ステータス</span>
+        </div>
+        <select v-model="status" id="status" placeholder="選択してください">
             <option value="1">見積中</option>
             <option value="2">見積完了</option>
             <option value="3">受注済み</option>
         </select>
-        <button @click="searchByLikeStatus">検索</button>
-    </span>
-    <br>
-    <span>
-        <label for="customer_name">顧客名</label>
-        <input v-model="customerName" type="text" id="customer_name" disabled="disabled"/>
-        <button @click="showCustomerSearchDialog">顧客選択</button>
+        <button @click="searchByLikeStatus" class="btn btn-primary">検索</button>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">顧客名</span>
+        </div>
+        <input v-model="customerName" type="text" id="customer_name" disabled="disabled" placeholder="選択してください"/>
+        <button @click="showCustomerSearchDialog" class="btn btn-success">顧客選択</button>
         <customer-search-dialog ref="cDialog"
-            @select-customer='customerName = $event'
+            @select-customer='selectCustomer'
         />
-        <button @click="clearCustomer">クリア</button>
-        <button @click="searchByLikeCustomer">検索</button>
-    </span>
-    <br>
-    <span>
-        <label for="employee_name">担当者名</label>
-        <input v-model="employeeName" type="text" id="employee_name" disabled="disabled"/>
-        <button @click="showEmployeeSearchDialog">担当者選択</button>
+        <button @click="clearCustomer" class="btn btn-secondary">クリア</button>
+        <button @click="searchByLikeCustomer" class="btn btn-primary">検索</button>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">担当者名</span>
+        </div>
+        <input v-model="employeeName" type="text" id="employee_name" disabled="disabled" placeholder="選択してください"/>
+        <button @click="showEmployeeSearchDialog" class="btn btn-success">担当者選択</button>
         <employee-search-dialog ref="eDialog"
-            @select-employee='employeeName = $event'
+            @select-employee='selectEmployee'
         />
-        <button @click="clearEmployee">クリア</button>
-        <button @click="searchByLikeEmployee">検索</button>
-    </span>
-    <br>
+        <button @click="clearEmployee" class="btn btn-secondary">クリア</button>
+        <button @click="searchByLikeEmployee" class="btn btn-primary">検索</button>
+    </div>
 </div>
 </template>
 
@@ -62,11 +67,13 @@ export default {
     },
     data() {
         return {
-            estimateId: "入力してください",
-            estimateName: "入力してください",
-            status: "選択してください",
-            customerName: "入力してください",
-            employeeName: "入力してください"
+            estimateId: null,
+            estimateName: null,
+            status: null,
+            customerCd: null,
+            customerName: null,
+            employeeCd: null,
+            employeeName: null
         }
     },
     methods: {
@@ -105,6 +112,14 @@ export default {
         },
         showEmployeeSearchDialog: function() {
             this.$refs.eDialog.showDialog();
+        },
+        selectCustomer: function(customerCd, customerName) {
+            this.customerCd = customerCd;
+            this.customerName = customerName;
+        },
+        selectEmployee: function(employeeCd, employeeName) {
+            this.employeeCd = employeeCd;
+            this.employeeName = employeeName;            
         }
     }
 }

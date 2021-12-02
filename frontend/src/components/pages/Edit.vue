@@ -1,9 +1,9 @@
 <template>
-<div>
+<div class="container">
   <h1>見積編集</h1>
   <edit-estimate-form :estimate="estimate"/>
   <input-item-form/>
-  <button @click="updataEstimate">見積更新</button>
+  <button @click="updataEstimate" class="btn btn-warning">見積更新</button>
   <edit-estimate-details-list :details="details"
     @delete-detail="deleteDetail"
   />
@@ -49,9 +49,12 @@ export default {
         }
       })
       .then((res) => {
+        this.$router.push('/');
+        alert('見積情報を更新しました')
         console.log(res);
       })
       .catch((err) => {
+        alert('見積情報の更新に失敗')
         console.log("エラー：" + err);
       })
     },
@@ -93,6 +96,7 @@ export default {
       }
     })
     .then(res => {
+      alert('明細を削除しました')
       console.log(res.data + 'delete EstimateDetail');
     })
     .catch(err => {

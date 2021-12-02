@@ -10,7 +10,7 @@ public interface EstimatesRepository extends JpaRepository<Estimates, Integer> {
     
     public List<Estimates> findByIdLike(int id);
 
-    public List<Estimates> findByNameLike(String name);
+    public List<Estimates> findByNameContaining(String name);
 
     public List<Estimates> findByStatusLike(String status);
 

@@ -1,41 +1,47 @@
 <template>
-<div>
-    <span>
-        <label for="estimate_id">見積番号</label>
+<div class="container">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">見積番号</span>
+        </div>
         <input type="text" id="estimate_id" disabled="disabled" :value="id"/>
-    </span>
-    <br>
-    <span>
-        <label for="estimate_name">見積案件名</label>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">見積案件名</span>
+        </div>
         <input v-if="estimate" type="text" id="estimate_name" disabled="disabled" :value="estimate.estimateName"/>
-    </span>
-    <span>
-        <label for="status">見積ステータス</label>
+        <div class="input-group-prepend">
+            <span class="input-group-text">見積ステータス</span>
+        </div>
         <input v-if="estimate" type="text" id="status" disabled="disabled" :value="estimate.status"/>
-    </span>
-    <br>
-    <span>
-        <label for="customer_name">顧客名</label>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">顧客名</span>
+        </div>
         <input v-if="estimate" type="text" id="customer_name" disabled="disabled" :value="estimate.customerName"/>
-    </span>
-    <span>
-        <label for="employee_name">担当者名</label>
+        <div class="input-group-prepend">
+            <span class="input-group-text">担当者名</span>
+        </div>
         <input v-if="estimate" type="text" id="employee_name" disabled="disabled" :value="estimate.employeeName"/>
-    </span>
-    <br>
-    <span>
-        <label for="amount">予算金額</label>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">予算金額</span>
+        </div>
         <input v-if="estimate" type="text" id="amount" disabled="disabled" :value="estimate.amount"/>
-    </span>
-    <span>
-        <label for="over_amount">予算超過額</label>
+        <div class="input-group-prepend">
+            <span class="input-group-text">予算超過額</span>
+        </div>
         <input v-if="overAmount" type="text" id="over_amount" disabled="disabled" :value="overAmount"/>
-    </span>
-    <br>
-    <span>
-        <label for="budgeted_amount">合計</label>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">合計</span>
+        </div>
         <input v-if="estimate" type="text" id="budgeted_amount" disabled="disabled" :value="estimate.budgetedAmount"/>
-    </span>
+    </div>
 </div>
 </template>
 

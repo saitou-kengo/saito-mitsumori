@@ -2,31 +2,33 @@
 <div>
     <span id="index">検索結果一覧</span>
     <br>
-    <table>
+    <table class="table table-bordered" style="width: 90%">
+        <thead class="thead-lignt">
         <tr>
-            <th>見積番号</th>
-            <th>案件名</th>
-            <th>ステータス</th>
-            <th>顧客名</th>
-            <th>担当者名</th>
-            <th>予算金額</th>
-            <th>見積金額</th>
-            <th>詳細</th>
-            <th>編集</th>
+            <th id="estimateId">見積番号</th>
+            <th id="estimateName">案件名</th>
+            <th id="status">ステータス</th>
+            <th id="customerName">顧客名</th>
+            <th id="employeeName">担当者名</th>
+            <th id="amount">予算金額</th>
+            <th id="budgetedAmount">見積金額</th>
+            <th id="detail">詳細</th>
+            <th id="edit">編集</th>
         </tr>
-        <tr>
-        <div v-for="estimate in estimates" :key="estimate.id">
-            <td>{{ estimate.id }}</td>
-            <td>{{ estimate.estimateName }}</td>
-            <td>{{ estimate.status }}</td>
-            <td>{{ estimate.customerName }}</td>
-            <td>{{ estimate.employeeName }}</td>
-            <td>{{ estimate.budgetedAmount }}</td>
-            <td>{{ estimate.amount }}</td>
-            <td><router-link :to="{ name:'detail',params:{ id : estimate.id }}">詳細</router-link></td>
-            <td><router-link :to="{ name:'edit',params:{ id : estimate.id }}">編集</router-link></td>
-        </div>
+        </thead>
+        <tbody>
+        <tr v-for="estimate in estimates" :key="estimate.id">
+            <td id="estimateId">{{ estimate.id }}</td>
+            <td id="estimateName">{{ estimate.estimateName }}</td>
+            <td id="status">{{ estimate.status }}</td>
+            <td id="customerName">{{ estimate.customerName }}</td>
+            <td id="employeeName">{{ estimate.employeeName }}</td>
+            <td id="amount">{{ estimate.budgetedAmount }}</td>
+            <td id="budgetedAmount">{{ estimate.amount }}</td>
+            <td id="detail"><router-link :to="{ name:'detail',params:{ id : estimate.id }}">詳細</router-link></td>
+            <td id="edit"><router-link :to="{ name:'edit',params:{ id : estimate.id }}">編集</router-link></td>
         </tr>
+        </tbody>
     </table>
 </div>
 </template>
@@ -41,13 +43,45 @@ export default {
 
 <style>
 table {
-    table-layout:fixed;
-    width: 80%;
-    border-collapse:  collapse;
+    margin: auto;
 }
 
-th,td {
-    border: solid 1px;
+#estimateId {
+    width: 5%;
+}
+
+#estimateName {
+    width: 20%;
+}
+
+#status {
+    width: 10%;
+}
+
+#customerName {
+    width: 15%;
+}
+
+#employeeName {
+    width: 15%;
+}
+
+#amount {
+    width: 10%;
+}
+
+#budgetedAmount {
+    width: 10%;
+}
+
+#detail {
+    width: 5%;
+    text-align: center;
+}
+
+#edit {
+    width: 5%;
+    text-align: center;
 }
 
 #index {

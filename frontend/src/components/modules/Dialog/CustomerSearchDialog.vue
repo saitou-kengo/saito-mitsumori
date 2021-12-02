@@ -1,31 +1,35 @@
 <template>
-<div>
+<div class="container">
     <div id="overlay" v-show="showFlag">
     <div id="dialog">
-    <div id="title">
+    <div class="form-group form-inline" id="title">
         顧客検索
     </div>
-    <br>
     <p>名前を入力してください。</p>
-    <span>
-        <label for="customer_name">会社・個人名（部分一致）</label>
-        <input v-model="customerName" type="text" id="customer_name"/>
-        <button @click="getCustomersListByLikeName">検索</button>
-    </span>
-    <br>
-    <table>
-        <tr>
-            <th>顧客コード</th>
-            <th>顧客名</th>
-            <th>選択</th>
-        </tr>
-        <div v-for="customer in customers" :key="customer.cd">
-        <tr>
-            <td>{{ customer.cd }}</td>
-            <td>{{ customer.name }}</td>
-            <td><span @click="closeDialog(customer.name)">選択</span></td>
-        </tr>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">会社・個人名（部分一致）</span>
         </div>
+        <input v-model="customerName" type="text" id="customer_name" placeholder="入力してください"/>
+        <button @click="getCustomersListByLikeName" class="btn btn-primary">検索</button>
+    </div>
+    <table class="table table-bordered">
+        <thead class="thead-lignt">
+            <tr>
+                <th id="cstomerCd">顧客コード</th>
+                <th id="customerName">顧客名</th>
+                <th id="select">選択</th>
+            </tr>
+        </thead>
+        <tbody>
+        <div v-for="customer in customers" :key="customer.cd">
+            <tr>
+                <td id="cstomerCd">{{ customer.cd }}</td>
+                <td id="customerName">{{ customer.name }}</td>
+                <td id="select"><div @click="closeDialog(customer.cd, customer.name)">選択</div></td>
+            </tr>
+        </div>
+        </tbody>
     </table>
     </div>
     </div>
@@ -38,7 +42,7 @@ export default {
     data() {
         return {
             customers: null,
-            customerName: "入力してください",
+            customerName: null,
             showFlag: false
         }
     },
@@ -72,8 +76,8 @@ export default {
         showDialog: function() {
             this.showFlag = true;
         },
-        closeDialog: function(customerName) {
-            this.$emit('select-customer', customerName);
+        closeDialog: function(customerCd, customerName) {
+            this.$emit('select-customer', customerCd, customerName);
             this.showFlag = false;
         }
     },
@@ -84,6 +88,26 @@ export default {
 </script>
 
 <style>
+table {
+    margin: auto;
+}
+
+tbody {
+    overflow: scroll;
+}
+
+#cstomerCd {
+    width: 25%;
+}
+
+#cstomerName {
+    width: 50%;
+}
+
+#select {
+    width: 25%;
+}
+
 #overlay{
     z-index: 1;
     position: fixed;
@@ -100,6 +124,7 @@ export default {
 #dialog{
     z-index: 2;
     width: 50%;
+    height: 50%;
     padding: 1em;
     background: #fff;
 

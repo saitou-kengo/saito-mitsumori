@@ -37,7 +37,8 @@ public class EstimateDetailsController {
     @PostMapping("/estimate-details")
     public void insertDetails(@RequestParam List<EstimateDetails> details) {
         for (EstimateDetails e : details) {
-            dService.insert(e.getEstimateId(), e.getProductCd(), e.getQuantity());
+            System.out.println(e);
+            // dService.insert(e.getEstimateId(), e.getProductCd(), e.getQuantity());
         }
     }
 

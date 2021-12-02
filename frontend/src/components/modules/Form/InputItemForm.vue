@@ -1,36 +1,41 @@
 <template>
-<div>
+<div class="container">
     <span id="index">追加商品</span>
     <br>
-    <span>
-        <label for="item_code">商品コード</label>
-        <input v-model="product.productCd" type="text" disabled="disabled"/>
-        <button @click="showProductSearchDialog">商品検索</button>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">商品コード</span>
+        </div>
+        <input v-model="product.productCd" type="text" disabled="disabled" placeholder="商品を選択してください"/>
+        <button @click="showProductSearchDialog" class="btn btn-primary">商品検索</button>
         <product-search-dialog ref="pDialog"
-            @select-product='product = $event'
+            @select-product='initProduct'
         />
-    </span>
-    <span>
-        <label for="item_name">商品名</label>
-        <input v-model="product.productName" type="text" disabled="disabled"/>
-    </span>
-    <br>
-    <span>
-        <label for="price">単価</label>
-        <input v-model="product.price" type="text" disabled="disabled"/>
-        <button @click="clearProduct">商品をクリア</button>
-    </span>
-    <span>
-        <label for="quantity">数量</label>
-        <input v-model="detail.quantity" type="text"/>
-    </span>
-    <br>
-    <span>
-        <label for="total_price">金額</label>
-        <input v-model="totalPrice" type="text" disabled="disabled"/>
-    </span>
-    <br>
-    <button @click="addDetail">明細に追加</button>
+        <div class="input-group-prepend">
+            <span class="input-group-text">商品名</span>
+        </div>
+        <input v-model="product.productName" type="text" disabled="disabled" placeholder="商品を選択してください"/>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">単価</span>
+        </div>
+        <input v-model="product.price" type="text" disabled="disabled" placeholder="商品を選択してください"/>
+        <button @click="clearProduct" class="btn btn-secondary">商品をクリア</button>
+        <div class="input-group-prepend">
+            <span class="input-group-text">数量</span>
+        </div>
+        <input v-model="detail.quantity" type="text" placeholder="数量を入力して下さい"/>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">金額</span>
+        </div>
+        <input v-model="budgeted" type="text" disabled="disabled"/>
+    </div>
+    <div class="input-group mb-3">
+        <button @click="addDetail" class="btn btn-success">明細に追加</button>
+    </div>
 </div>
 </template>
 
@@ -44,33 +49,38 @@ export default {
     data() {
         return {
             product: {
-                productCd: "商品を選択してください",
-                productName: "商品を選択してください",
-                price: "商品を選択してください",
+                productCd: null,
+                productName: null,
+                price: null
             },
             detail: {
-                quantity: "数量を入力してください",
+                quantity: null
             }
         }
     },
     computed: {
-    totalPrice: function() {
+    budgeted: function() {
         return (this.detail.quantity >= 0 && this.product.price >=0 ? this.product.price * this.detail.quantity : "-");
     }
     },
     methods: {
         addDetail: function() {
-            this.$emit('add-detail', this.detail, this.product);
+            this.$emit('add-detail', this.detail, this.product, this.budgeted);
+            this.clearProduct();
         },
         clearProduct: function() {
             this.product.productCd = null;
             this.product.productName = null;
             this.product.price = null,
-            this.detail.quantity = null,
-            this.detail.totalPrice = null
+            this.detail.quantity = null
         },
         showProductSearchDialog: function() {
             this.$refs.pDialog.showDialog();
+        },
+        initProduct: function(productCd, productName, price) {
+            this.product.productCd = productCd;
+            this.product.productName = productName;
+            this.product.price = price;
         }
     }
 }

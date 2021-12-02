@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import java.util.List;
 
+import com.example.backend.domain.model.Estimates;
 import com.example.backend.domain.model.ViewEstimates;
 import com.example.backend.domain.service.EstimatesService;
 
@@ -40,7 +41,7 @@ public class EstimatesController {
 
     @GetMapping("/estimates/like-name/:name")
     public List<ViewEstimates> getViewEstimateListByLikeEstimateName(@RequestParam String name) {
-        return eService.getViewEstimateListByLikeName(name);
+        return eService.getViewEstimateListByContainingName(name);
     }
 
     @GetMapping("/estimates/like-status/:status")
@@ -59,13 +60,9 @@ public class EstimatesController {
     }
 
     @PostMapping("/estimates")
-    public void insertEstimate(@RequestParam String name,
-        @RequestParam int amount,
-        @RequestParam int budgetedAmount,
-        @RequestParam int customerCd,
-        @RequestParam int employeeCd,
-        @RequestParam String status) {
-        eService.insert(name, amount, budgetedAmount, customerCd, employeeCd, status);
+    public void insertEstimate(@RequestParam String estimate) {
+        System.out.println(estimate);
+        // eService.insert(name, amount, budgetedAmount, customerCd, employeeCd, status);
     }
 
     @PutMapping("/estimates/:id")

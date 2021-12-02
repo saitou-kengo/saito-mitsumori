@@ -2,30 +2,25 @@
 <div>
     <span id="index">見積明細</span>
     <br>
-    <table>
+    <table class="table table-bordered">
+        <thead class="thead-lignt">
         <tr>
-            <th>枝番</th>
-            <th>商品名</th>
-            <th>単価</th>
-            <th>数量</th>
-            <th>金額</th>
+            <th id="subId">枝番</th>
+            <th id="productName">商品名</th>
+            <th id="price">単価</th>
+            <th id="quantity">数量</th>
+            <th id="totalPrice">金額</th>
         </tr>
-        <tr>
-        <div v-if="details === null">
-            データ無し
-        </div>
-        <div v-else>
-        <div v-for="detail in details" :key="detail.id">
-
-            <td>{{ detail.subId }}</td>
-            <td>{{ detail.productName }}</td>
-            <td>{{ detail.price }}</td>
-            <td>{{ detail.quantity }}</td>
-            <td>{{ detail.totalPrice }}</td>
-
-        </div>
-        </div>
+        </thead>
+        <tbody>
+        <tr v-for="detail in details" :key="detail.id">
+            <td id="subId">{{ detail.subId }}</td>
+            <td id="productName">{{ detail.productName }}</td>
+            <td id="price">{{ detail.price }}</td>
+            <td id="quantity">{{ detail.quantity }}</td>
+            <td id="totalPrice">{{ detail.totalPrice }}</td>
         </tr>
+        </tbody>
         </table>
 </div>
 </template>
@@ -38,12 +33,28 @@ export default {
 </script>
 
 <style>
-th,td {
-    border: solid 1px;
+table {
+    margin: auto;
 }
 
-table {
-    border-collapse:  collapse;
+#subId {
+    width: 5%;
+}
+
+#productName {
+    width: 25%;
+}
+
+#price {
+    width: 10%;
+}
+
+#quantity {
+    width: 5%;
+}
+
+#totalPrice {
+    width: 10%;
 }
 
 #index {
