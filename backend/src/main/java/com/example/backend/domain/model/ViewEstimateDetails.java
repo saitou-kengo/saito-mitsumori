@@ -2,6 +2,9 @@ package com.example.backend.domain.model;
 
 import lombok.Data;
 
+/**
+ * 画面に表示する見積明細リストのモデル（データベースとは紐づかない）
+ */
 @Data
 public class ViewEstimateDetails {
     private int id;

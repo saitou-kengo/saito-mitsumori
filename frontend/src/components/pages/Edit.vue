@@ -1,10 +1,11 @@
 <template>
 <div class="container">
-  {{ estimate }}
   <h1>見積編集</h1>
   <edit-estimate-form :estimate="estimate"/>
-  <input-item-form/>
-  <button @click="updataEstimate" class="btn btn-warning">見積更新</button>
+  <input-item-form
+    @add-detail="addDetails"
+  />
+  <button @click="updataComfirm" class="btn btn-warning" id="button">見積更新</button>
   <edit-estimate-details-list :details="details"
     @delete-detail="deleteDetail"
   />
@@ -27,34 +28,35 @@ export default {
     return {
       estimateId: this.$route.params.id,
       estimate: null,
-      details: null
+      details: []
     }
   },
   computed: {
-    overAmount: function() {
+    overAmount() {
       return this.estimate.budgetedAmount - this.estimate.amount;
     }
   },
   methods: {
     updataEstimate: function() {
-      let params = new URLSearchParams();
-      params.append('id', this.estimateId);
-      params.append('name', this.estimate.estimateName);
-      params.append('amount', this.estimate.amount);
-      params.append('budgetedAmount', this.estimate.budgetedAmount);
-      params.append('customerCd', this.estimate.customerCd);
-      params.append('employeeCd', this.estimate.employeeCd);
-      params.append('status', this.estimate.status);
+      let form = new FormData();
+      form.append('id', this.estimateId);
+      form.append('name', this.estimate.estimateName);
+      form.append('amount', this.estimate.amount);
+      form.append('budgetedAmount', this.estimate.budgetedAmount);
+      form.append('customerCd', this.estimate.customerCd);
+      form.append('employeeCd', this.estimate.employeeCd);
+      form.append('status', this.estimate.status);
+      return new Promise(resolve => {
       this.$axios
-      .put('http://localhost:8080/api/v1/estimates/:id', params)
+      .put('http://localhost:8080/api/v1/estimates/:id', form)
       .then((res) => {
-        this.$router.push('/');
-        alert('見積情報を更新しました')
         console.log(res);
+        resolve();
       })
       .catch((err) => {
         alert('見積情報の更新に失敗')
         console.log("エラー：" + err);
+      })
       })
     },
     getEstimateById: function() {
@@ -96,36 +98,50 @@ export default {
     })
     .then(res => {
       alert('明細を削除しました')
+      this.$router.go({path: this.$router.currentRoute.path, force: true})
       console.log(res.data + 'delete EstimateDetail');
     })
     .catch(err => {
       console.log('エラー：', err);
     })
     },
-    insertDetail() {
+    insertDetail(subId, productCd, quantity) {
+        let form = new FormData();
+        form.append('estimateId', this.estimateId)
+        form.append('subId', subId);
+        form.append('productCd', productCd);
+        form.append('quantity', quantity);
         this.$axios
-        .get('http://localhost:8080/api/v1/estimate-details', {
-            params: {
-                estimateId: this.estimateId,
-                productCd: this.productCd,
-                quantity: this.quantity
-            }
-            })
+        .post('http://localhost:8080/api/v1/estimate-details', form)
         .then(res => {
+            alert('明細を追加しました')
+            this.$router.go({path: this.$router.currentRoute.path, force: true})
             console.log(res.data + 'create new EstimateDetail');
         })
         .catch(err => {
             console.log('エラー：' + err);
         })
+    },
+    async addDetails(...inputs) {
+        const [inputDetail, inputProduct, totalPrice] = inputs;
+        let subId = this.details.length + 1;
+        let productCd = inputProduct.productCd;
+        let quantity = inputDetail.quantity;
+        this.estimate.budgetedAmount += totalPrice;
+        await this.updataEstimate();
+        this.insertDetail(subId, productCd, quantity);
+
+    },
+    async updataComfirm() {
+      await this.updataEstimate();
+      alert('見積情報を更新しました')
+      this.$router.push('/');
     }
   },
   created: function() {
     this.getEstimateById();
     this.getEstimateDetailsListById();
-  }
+  },
+  
 }
 </script>
-
-<style>
-
-</style>

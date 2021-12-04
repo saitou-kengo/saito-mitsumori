@@ -1,40 +1,38 @@
 <template>
-<div class="container">
-    <div id="overlay" v-show="showFlag">
-    <div id="dialog">
-    <div class="form-group form-inline"  id="title">
+    <modal name="employeeDialog" :draggable="true" :adaptive="true" :scrollable="true" width="75%" height="auto">
+    <div clas="container">
+    <div class="form-group form-inline" id="modal-header">
         担当者検索
+        <br>
+        名前を入力してください。
     </div>
-    <br>
-    <p>名前を入力してください。</p>
-    <div class="input-group mb-3">
+    <div class="input-group mb-3" id="modal-search-form">
         <div class="input-group-prepend">
             <span class="input-group-text">担当者名（部分一致）</span>
         </div>
         <input v-model="employeeName" type="text" id="employee_name" placeholder="入力してください"/>
-        <button @click="getEmployeeListByLikeName" class="btn btn-primary">検索</button>
+        <button @click="getEmployeeListByLikeName" class="btn btn-primary" id="button">検索</button>
     </div>
+    <div id="modal-body">
     <table class="table table-bordered">
         <thead class="thead-lignt">
             <tr>
-                <th id="employeeCd">担当者コード</th>
-                <th id="employeeName">担当者名</th>
-                <th id="select">選択</th>
+                <th id="dialog-employee-cd">担当者コード</th>
+                <th id="dialog-employee-name">担当者名</th>
+                <th id="dialog-select">選択</th>
             </tr>
         </thead>
         <tbody>
-        <div v-for="employee in employees" :key="employee.cd">
-            <tr>
-                <td id="employeeCd">{{ employee.cd }}</td>
-                <td id="employeeName">{{ employee.name }}</td>
-                <td id="select"><span @click="closeDialog(employee.cd, employee.name)">選択</span></td>
+            <tr v-for="employee in employees" :key="employee.cd">
+                <td id="dialog-employee-cd">{{ employee.cd }}</td>
+                <td id="dialog-employee-name">{{ employee.name }}</td>
+                <td id="dialog-select"><span @click="closeDialog(employee.cd, employee.name)" id="text-link">選択</span></td>
             </tr>
-        </div>
         </tbody>
     </table>
     </div>
     </div>
-</div>
+    </modal>
 </template>
 
 <script>
@@ -43,8 +41,7 @@ export default {
     data() {
         return {
             employees: null,
-            employeeName: null,
-            showFlag: false
+            employeeName: null
         }
     },
     methods: {
@@ -73,11 +70,11 @@ export default {
         })
         },
         showDialog: function() {
-            this.showFlag = true;
+            this.$modal.show('employeeDialog');
         },
         closeDialog: function(employeeCd, employeeName) {
             this.$emit('select-employee', employeeCd, employeeName);
-            this.showFlag = false;
+            this.$modal.hide('employeeDialog');
         }
     },
     created() {
@@ -85,45 +82,3 @@ export default {
     }
 }
 </script>
-
-<style>
-table {
-    margin: auto;
-}
-
-tbody {
-    overflow: scroll;
-}
-
-#employeeCd {
-    width: 25%;
-}
-
-#employeeName {
-    width: 50%;
-}
-
-#select {
-    width: 25%;
-}
-
-#overlay{
-    z-index: 1;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#dialog{
-    z-index: 2;
-    width: 50%;
-    padding: 1em;
-    background: #fff;
-}
-</style>

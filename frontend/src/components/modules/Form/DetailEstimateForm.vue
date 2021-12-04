@@ -50,7 +50,3 @@ export default {
     props: ['id', 'estimate', 'overAmount']
 }
 </script>
-
-<style>
-
-</style>

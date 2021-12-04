@@ -1,10 +1,13 @@
 <template>
 <div class="container">
-  {{ this.estimateId }}
   <h1>見積詳細</h1>
-  <detail-estimate-form :id="estimateId" :estimate="estimate" :overAmount="overAmount"/>
-  <router-link :to="{ name:'edit',params:{ id : estimateId }}" tag="button" class="btn btn-success">編集</router-link>
-  <button @click="deleteEstimate" class="btn btn-secondary">削除</button>
+  <detail-estimate-form v-if="estimate"
+    :id="estimateId"
+    :estimate="estimate"
+    :overAmount="overAmount"
+  />
+  <router-link :to="{ name:'edit',params:{ id : estimateId }}" tag="button" class="btn btn-success" id="button">編集</router-link>
+  <button @click="deleteEstimate" class="btn btn-secondary" id="button">削除</button>
   <estimates-datail-list :details="details"/>
 </div>
 </template>
@@ -40,7 +43,7 @@ export default {
       })
       .then(res => {
         alert('見積を削除しました')
-        // this.$router.push('/');
+        this.$router.push('/');
         console.log(res.data + 'delete Estimate');
       })
       .catch(err => {
@@ -85,7 +88,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

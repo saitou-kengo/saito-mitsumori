@@ -7,7 +7,7 @@
             <span class="input-group-text">商品コード</span>
         </div>
         <input v-model="product.productCd" type="text" disabled="disabled" placeholder="商品を選択してください"/>
-        <button @click="showProductSearchDialog" class="btn btn-primary">商品検索</button>
+        <button @click="showProductSearchDialog" class="btn btn-primary" id="button">商品検索</button>
         <product-search-dialog ref="pDialog"
             @select-product='initProduct'
         />
@@ -21,7 +21,7 @@
             <span class="input-group-text">単価</span>
         </div>
         <input v-model="product.price" type="text" disabled="disabled" placeholder="商品を選択してください"/>
-        <button @click="clearProduct" class="btn btn-secondary">商品をクリア</button>
+        <button @click="clearProduct" class="btn btn-secondary" id="button">商品をクリア</button>
         <div class="input-group-prepend">
             <span class="input-group-text">数量</span>
         </div>
@@ -34,7 +34,7 @@
         <input v-model="budgeted" type="text" disabled="disabled"/>
     </div>
     <div class="input-group mb-3">
-        <button @click="addDetail" class="btn btn-success">明細に追加</button>
+        <button @click="addDetail" class="btn btn-success" id="button" :disabled="isAddDetail">明細に追加</button>
     </div>
 </div>
 </template>
@@ -59,9 +59,12 @@ export default {
         }
     },
     computed: {
-    budgeted: function() {
-        return (this.detail.quantity >= 0 && this.product.price >=0 ? this.product.price * this.detail.quantity : "-");
-    }
+        budgeted() {
+            return (this.detail.quantity >= 0 && this.product.price >=0 ? this.product.price * this.detail.quantity : "-");
+        },
+        isAddDetail() {
+            return this.product.productCd == null || this.detail.quantity == null;
+        }
     },
     methods: {
         addDetail: function() {
@@ -85,25 +88,3 @@ export default {
     }
 }
 </script>
-
-<style>
-#index {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#index:before, .catch:after {
-    border-top: 1px solid;
-    content: "";
-    width: 3em;
-}
-
-#index:before {
-    margin-right: 1em;
-}
-
-#index:after {
-    margin-left: 1em;
-}
-</style>

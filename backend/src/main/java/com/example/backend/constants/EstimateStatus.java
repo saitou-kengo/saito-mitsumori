@@ -1,5 +1,8 @@
 package com.example.backend.constants;
 
+/**
+ * 見積ステータスのenumクラス
+ */
 public enum EstimateStatus {
     MAKING(1, "1:見積中"),
     COMPLETION(2, "2:見積完了"),
@@ -20,6 +23,7 @@ public enum EstimateStatus {
         return label;
     }
 
+    //Indexから値（ステータス）を取得
     public static EstimateStatus findByIndex(int id) {
         for(EstimateStatus statsu : values()) {
             if (id == statsu.getId()) {

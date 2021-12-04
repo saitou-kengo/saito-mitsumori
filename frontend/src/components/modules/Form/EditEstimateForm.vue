@@ -21,7 +21,7 @@
             <span class="input-group-text">顧客名</span>
         </div>
         <input v-if="estimate" v-model="estimate.customerName" type="text" id="customer_name" disabled="disabled" placeholder="選択してください"/>
-        <button @click="showCustomerSearchDialog" class="btn btn-primary">顧客検索</button>
+        <button @click="showCustomerSearchDialog" class="btn btn-primary" id="button">顧客検索</button>
         <customer-search-dialog ref="cDialog"
             @select-customer='customerName = $event'
         />
@@ -29,7 +29,7 @@
             <span class="input-group-text">担当者名</span>
         </div>
         <input v-if="estimate" v-model="estimate.employeeName" type="text" id="employee_name" disabled="disabled" placeholder="選択してください"/>
-        <button @click="showEmployeeSearchDialog" class="btn btn-primary">担当者検索</button>
+        <button @click="showEmployeeSearchDialog" class="btn btn-primary" id="button">担当者検索</button>
         <employee-search-dialog ref="eDialog"
             @select-employee='employeeName = $event'
         />
@@ -90,7 +90,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

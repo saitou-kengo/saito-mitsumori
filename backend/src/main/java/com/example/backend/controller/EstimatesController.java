@@ -2,8 +2,8 @@ package com.example.backend.controller;
 
 import java.util.List;
 
-import com.example.backend.domain.model.Estimates;
 import com.example.backend.domain.model.ViewEstimates;
+import com.example.backend.domain.service.EstimateDetailsService;
 import com.example.backend.domain.service.EstimatesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Estimates（見積）のコントローラー
+ */
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = {"http://localhost:8081"})
@@ -23,88 +26,96 @@ public class EstimatesController {
 
     @Autowired
     private EstimatesService eService;
+    @Autowired
+    private EstimateDetailsService eDService;
 
+    //全見積リストの取得
     @GetMapping("/estimates")
     public List<ViewEstimates> getAllEstimateList() {
         return eService.getAllViewEstimateList();
     }
 
+    //指定したIDの見積データの取得
     @GetMapping(value = "/estimates/:id", params = "id")
     public ViewEstimates getViewEstimateById(@RequestParam int id) {
         return eService.getViewEstimateById(id);
     }
 
+    //指定したIDに部分一致する全見積リストの取得
     @GetMapping("/estimates/like-id/:id")
     public List<ViewEstimates> getViewEstimateListByLikeId(@RequestParam int id) {
-        return eService.getViewEstimateListByLikeId(id);
+        return eService.getViewEstimateListById(id);
     }
 
+    //指定した見積名に部分一致する全見積リストの取得
     @GetMapping("/estimates/like-name/:name")
     public List<ViewEstimates> getViewEstimateListByLikeEstimateName(@RequestParam String name) {
-        return eService.getViewEstimateListByContainingName(name);
+        return eService.getViewEstimateListByNameContaining(name);
     }
 
+    //指定したステータスに部分一致する全見積リストの取得
     @GetMapping("/estimates/like-status/:status")
     public List<ViewEstimates> getEstimateByLikeStatus(@RequestParam String status) {
-        return eService.getViewEstimateListByLikeStatus(status);
+        return eService.getViewEstimateListByStatusContaining(status);
     }
 
+    //指定した顧客IDの全見積リストの取得
     @GetMapping("/estimates/customer-cd/:cd")
-    public List<ViewEstimates> getEstimateByLikeCustomerCd(@RequestParam String customerName) {
-        return eService.getViewEstimateListByLikeCustomerCd(customerName);
+    public List<ViewEstimates> getEstimateByCustomerCd(@RequestParam int customerCd) {
+        return eService.getViewEstimateListByCustomerCd(customerCd);
     }
 
+    //指定した担当者IDの全見積リストの取得
     @GetMapping("/estimates/employee-cd/:cd")
-    public List<ViewEstimates> getEstimateByLikeEmployeeCd(@RequestParam String employeeName) {
-        return eService.getViewEstimateListByLikeEmployeeCd(employeeName);
+    public List<ViewEstimates> getEstimateByEmployeeCd(@RequestParam int employeeCd) {
+        return eService.getViewEstimateListByEmployeeCd(employeeCd);
     }
 
+    /**
+     * 見積の登録
+     * @return 登録した見積の見積ID
+     */
     @PostMapping("/estimates")
-    public void insertEstimate(
-            @RequestParam(name="name", required = false) String name,
-            @RequestParam(name="amount", required = false) int amount,
-            @RequestParam(name="budgetedAmount", required = false) int budgetedAmount,
-            @RequestParam(name="customerCd", required = false) int customerCd,
-            @RequestParam(name="employeeCd", required = false) int employeeCd,
-            @RequestParam(name="status", required = false) String status) {
-                System.out.println(name + "：");
-                System.out.println(amount + "：");
-                System.out.println(budgetedAmount + "：");
-                System.out.println(customerCd + "：");
-                System.out.println(employeeCd + "：");
-                System.out.println(status + "：");
-        // eService.insert(
-        //     name,
-        //     amount,
-        //     budgetedAmount,
-        //     customerCd,
-        //     employeeCd,
-        //     status);
+    public int insertAndIdReturn(
+        @RequestParam("name") String name,
+        @RequestParam("amount") int amount,
+        @RequestParam("budgetedAmount") int budgetedAmount,
+        @RequestParam("customerCd") int customerCd,
+        @RequestParam("employeeCd") int employeeCd,
+        @RequestParam("status") String status) {
+            return eService.insertAndIdReturn(
+                name,
+                amount,
+                budgetedAmount,
+                customerCd,
+                employeeCd,
+                status);
     }
 
+    //見積の更新
     @PutMapping("/estimates/:id")
     public void updateEstimate(
-        @RequestParam int id,
-        @RequestParam String name,
-        @RequestParam int amount,
-        @RequestParam int budgetedAmount,
-        @RequestParam int customerCd,
-        @RequestParam int employeeCd,
-        @RequestParam String status) {
-            System.out.println(id);
-            System.out.println(name);
-        eService.update(
-        id,
-        name,
-        amount,
-        budgetedAmount,
-        customerCd,
-        employeeCd,
-        status);
+        @RequestParam("id") int id,
+        @RequestParam("name") String name,
+        @RequestParam("amount") int amount,
+        @RequestParam("budgetedAmount") int budgetedAmount,
+        @RequestParam("customerCd") int customerCd,
+        @RequestParam("employeeCd") int employeeCd,
+        @RequestParam("status") String status) {
+            eService.update(
+            id,
+            name,
+            amount,
+            budgetedAmount,
+            customerCd,
+            employeeCd,
+            status);
     }
 
+    //指定したIDの見積を削除
     @DeleteMapping("/estimates/:id")
     public void deleteEstimateById(@RequestParam int id) {
+        eDService.deleteByEstimateId(id);
         eService.deleteById(id);
     }
 

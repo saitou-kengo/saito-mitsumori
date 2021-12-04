@@ -1,42 +1,40 @@
 <template>
-<div class="container">
-    <div id="overlay" v-show="showFlag">
-    <div id="dialog">
-    <div class="form-group form-inline" v id="title">
+<modal name="productDialog" :draggable="true" :adaptive="true" :scrollable="true" width="75%" height="auto">
+    <div class="container">
+    <div class="form-group form-inline" id="modal-header">
         商品検索
+        <br>
+        商品名を入力してください
     </div>
-    <br>
-    <p>商品名を入力してください。</p>
-    <div class="input-group mb-3">
+    <div class="input-group mb-3" id="modal-search-form">
         <div class="input-group-prepend">
             <span class="input-group-text">商品名（部分一致）</span>
         </div>
-        <input v-model="product.name" type="text" id="product_name" placeholder="入力してください"/>
-        <button @click="getProductListByLikeName" class="btn btn-primary">検索</button>
+        <input v-model="product.productName" type="text" id="product_name" placeholder="入力してください"/>
+        <button @click="getProductListByLikeName" class="btn btn-primary" id="button">検索</button>
     </div>
+    <div id="modal-body">
     <table class="table table-bordered">
         <thead class="thead-lignt">
             <tr>
-                <th id="productCd">商品コード</th>
-                <th id="productName">商品名</th>
-                <th id="price">単価</th>
-                <th id="select">選択</th>
+                <th id="dialog-product-cd">商品コード</th>
+                <th id="dialog-product-name">商品名</th>
+                <th id="dialog-price">単価</th>
+                <th id="dialog-select">選択</th>
             </tr>
         </thead>
         <tbody>
-        <div v-for="product in products" :key="product.cd">
-            <tr>
-                <td id="productCd">{{ product.cd }}</td>
-                <td id="productName">{{ product.name }}</td>
-                <td id="price">{{ product.price }}</td>
-                <td id="select"><span @click="closeDialog(product.cd, product.name, product.price)">選択</span></td>
+            <tr v-for="product in products" :key="product.cd">
+                <td id="dialog-product-cd">{{ product.cd }}</td>
+                <td id="dialog-product-name">{{ product.name }}</td>
+                <td id="dialog-price">{{ product.price }}</td>
+                <td id="dialog-select"><span @click="closeDialog(product.cd, product.name, product.price)" id="text-link">選択</span></td>
             </tr>
-        </div>
         </tbody>
     </table>
     </div>
     </div>
-</div>
+</modal>
 </template>
 
 <script>
@@ -50,8 +48,7 @@ export default {
                 productCd: null,
                 productName: null,
                 price: null
-            },
-            showFlag: false
+            }
         }
     },
     methods: {
@@ -80,11 +77,11 @@ export default {
             })
         },
         showDialog: function() {
-            this.showFlag = true;
+            this.$modal.show('productDialog');
         },
         closeDialog: function(productCd, productName, price) {
             this.$emit('select-product', productCd, productName, price);
-            this.showFlag = false;
+            this.$modal.hide('productDialog');
         }
     },
     mounted() {
@@ -92,51 +89,3 @@ export default {
     }
 }
 </script>
-
-<style>
-table {
-    margin: auto;
-}
-
-tbody {
-    overflow: scroll;
-}
-
-#productCd {
-    width: 15%;
-}
-
-#productName {
-    width: 50%;
-}
-
-#price {
-    width: 20%;
-}
-
-#select {
-    width: 15%;
-}
-
-
-#overlay{
-    z-index: 1;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#dialog{
-    z-index: 2;
-    width: 50%;
-    padding: 1em;
-    background: #fff;
-
-}
-</style>

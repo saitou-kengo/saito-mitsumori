@@ -5,6 +5,7 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,13 +13,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
+/**
+ * Estimate（見積）のモデル
+ */
 @Table(name = "estimates")
 @Entity
 @Builder
 @Data
 public class Estimates {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
     @Column(name = "name")

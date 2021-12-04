@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Estimate（見積）のサービス
+ */
 @Transactional
 @Service
 public class EstimatesService {
@@ -26,6 +29,7 @@ public class EstimatesService {
     @Autowired
     private MstEmployeesRepository mERepo;
 
+    //全画面表示用見積リストの取得
     public List<ViewEstimates> getAllViewEstimateList() {
         List<Estimates> eList = eRepo.findAll();
         List<ViewEstimates> eVList = new ArrayList<>();
@@ -33,6 +37,7 @@ public class EstimatesService {
         return eVList;
     }
 
+    //指定したIDの画面表示用見積データの取得
     public ViewEstimates getViewEstimateById(int id) {
         Optional<Estimates> eOptional = eRepo.findById(id);
         List<Estimates> eList = new ArrayList<>();
@@ -42,93 +47,128 @@ public class EstimatesService {
         return eVList.get(0);
     }
 
-    public List<ViewEstimates> getViewEstimateListByLikeId(int id) {
+    //指定したIDと部分一致する画面表示用見積リストの取得
+    public List<ViewEstimates> getViewEstimateListById(int id) {
         List<Estimates> eList = eRepo.findByIdLike(id);
         List<ViewEstimates> eVList = new ArrayList<>();
         convertEstimateListToViewEstimateList(eList, eVList);
         return eVList;
     }
 
-    public List<ViewEstimates> getViewEstimateListByContainingName(String name) {
+    //指定した見積案件名と部分一致する画面表示用見積リストの取得
+    public List<ViewEstimates> getViewEstimateListByNameContaining(String name) {
         List<Estimates> eList = eRepo.findByNameContaining(name);
         List<ViewEstimates> eVList = new ArrayList<>();
         convertEstimateListToViewEstimateList(eList, eVList);
         return eVList;
     }
 
-    public List<ViewEstimates> getViewEstimateListByLikeStatus(String status) {
-        List<Estimates> eList = eRepo.findByStatusLike(status);
+    //指定したステータスと部分一致する画面表示用見積リストの取得
+    public List<ViewEstimates> getViewEstimateListByStatusContaining(String status) {
+        List<Estimates> eList = eRepo.findByStatusContaining(status);
         List<ViewEstimates> eVList = new ArrayList<>();
         convertEstimateListToViewEstimateList(eList, eVList);
         return eVList;
     }
 
-    public List<ViewEstimates> getViewEstimateListByLikeCustomerCd(String customerName) {
-        int customerCd = mCRepo.findByName(customerName).getCd();
-        List<Estimates> eList = eRepo.findByCustomerCdLike(customerCd);
+    //指定した顧客CDが紐づく画面表示用見積リストの取得
+    public List<ViewEstimates> getViewEstimateListByCustomerCd(int customerCd) {
+        List<Estimates> eList = eRepo.findByCustomerCd(customerCd);
         List<ViewEstimates> eVList = new ArrayList<>();
         convertEstimateListToViewEstimateList(eList, eVList);
         return eVList;
     }
 
-    public List<ViewEstimates> getViewEstimateListByLikeEmployeeCd(String employeeName) {
-        int employeeCd = mERepo.findByName(employeeName).getCd();
-        List<Estimates> eList = eRepo.findByEmployeeCdLike(employeeCd);
+    //指定した担当者CDが紐づく画面表示用見積リストの取得
+    public List<ViewEstimates> getViewEstimateListByEmployeeCd(int employeeCd) {
+        List<Estimates> eList = eRepo.findByEmployeeCd(employeeCd);
         List<ViewEstimates> eVList = new ArrayList<>();
         convertEstimateListToViewEstimateList(eList, eVList);
         return eVList;
     }
 
-    public void insert(String name, int amount, int budgetedAmount, int customerCd, int employeeCd, String status) {
-        eRepo.saveAndFlush(Estimates.builder()
+    /**
+     * 見積を登録
+     * @return 登録した見積の見積ID
+     */
+    public int insertAndIdReturn(
+        String name,
+        int amount,
+        int budgetedAmount,
+        int customerCd,
+        int employeeCd,
+        String status) {
+            String statusCode = getStatusCode(status);
+            Estimates initEstimate = eRepo.saveAndFlush(Estimates.builder()
+                .name(name)
+                .amount(amount)
+                .budgetedAmount(budgetedAmount)
+                .customerCd(customerCd)
+                .employeeCd(employeeCd)
+                .status(statusCode)
+                .build());
+            return initEstimate.getId();
+    }
+
+    //見積の更新
+    public void update(
+        int id,
+        String name,
+        int amount,
+        int budgetedAmount,
+        int customerCd,
+        int employeeCd,
+        String status) {
+            String statusCode = getStatusCode(status);
+            eRepo.saveAndFlush(Estimates.builder()
+            .id(id)
             .name(name)
             .amount(amount)
             .budgetedAmount(budgetedAmount)
             .customerCd(customerCd)
             .employeeCd(employeeCd)
-            .status(status)
+            .status(statusCode)
             .build());
     }
 
-    public void update(int id, String name, int amount, int budgetedAmount, int customerCd, int employeeCd, String status) {
-        eRepo.saveAndFlush(Estimates.builder()
-        .id(id)
-        .name(name)
-        .amount(amount)
-        .budgetedAmount(budgetedAmount)
-        .customerCd(customerCd)
-        .employeeCd(employeeCd)
-        .status(status)
-        .build());
-    }
-
+    //指定したIDの見積を削除
     public void deleteById(int id) {
         eRepo.deleteById(id);
     }
 
-    private void convertEstimateListToViewEstimateList(List<Estimates> eList, List<ViewEstimates> eVList) {
-        for (Estimates e : eList) {
-            String customerName = getCustomerName(e);
-            String employeeName = getEmployeeName(e);
-            String status = EstimateStatus.findByIndex(Integer.parseInt(e.getStatus())).getlabel();
-            eVList.add(new ViewEstimates(
-                e.getId(),
-                e.getName(),
-                status,
-                e.getCustomerCd(),
-                customerName,
-                e.getEmployeeCd(),
-                employeeName,
-                e.getAmount(),
-                e.getBudgetedAmount()
-            ));
-        }
+    //ステータス名からステータスコードを切り取り
+    private String getStatusCode(String status) {
+        return String.valueOf(status.charAt(0));
     }
 
+    //与えられた見積リストを画面表示用に変換
+    private void convertEstimateListToViewEstimateList(
+        List<Estimates> eList,
+        List<ViewEstimates> eVList) {
+            for (Estimates e : eList) {
+                String customerName = getCustomerName(e);
+                String employeeName = getEmployeeName(e);
+                String status = EstimateStatus.findByIndex(Integer.parseInt(e.getStatus())).getlabel();
+                eVList.add(new ViewEstimates(
+                    e.getId(),
+                    e.getName(),
+                    status,
+                    e.getCustomerCd(),
+                    customerName,
+                    e.getEmployeeCd(),
+                    employeeName,
+                    e.getAmount(),
+                    e.getBudgetedAmount()
+                ));
+            }
+    }
+
+    //担当者CDから担当者名を取得
     private String getEmployeeName(Estimates e) {
         return mERepo.getById(e.getEmployeeCd()).getName();
     }
 
+    //顧客CDから顧客名を取得
     private String getCustomerName(Estimates e) {
         return mCRepo.getById(e.getCustomerCd()).getName();
     }

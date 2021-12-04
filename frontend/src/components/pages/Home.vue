@@ -22,7 +22,8 @@ export default {
     },
     data() {
         return {
-            estimates: null
+            estimates: null,
+            id: null
         };
     },
     methods: {
@@ -97,11 +98,11 @@ export default {
                 console.log('エラー:' + err);
             })
         },
-        searchByLikeCustomer: function(customerName) {
+        searchByLikeCustomer: function(customerCd) {
             this.$axios
             .get('http://localhost:8080/api/v1/estimates/customer-cd/:cd', {
                 params: {
-                    customerName: customerName
+                    customerCd: customerCd
                 }
             })
             .then(res => {
@@ -112,11 +113,11 @@ export default {
                 console.log('エラー:' + err);
             })
         },
-        searchByLikeEmployee: function(employeeName) {
+        searchByLikeEmployee: function(employeeCd) {
             this.$axios
             .get('http://localhost:8080/api/v1/estimates/employee-cd/:cd', {
                 params: {
-                    employeeName: employeeName
+                    employeeCd: employeeCd
                 }
             })
             .then(res => {
@@ -133,7 +134,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

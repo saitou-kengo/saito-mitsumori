@@ -1,31 +1,36 @@
 <template>
 <div class="container">
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">見積番号</span>
+    <div class="form-group row">
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text">見積番号</span>
+            </div>
+            <input type="text" id="estimate_id" disabled="disabled" placeholder="自動採番"/>
         </div>
-        <input type="text" id="estimate_id" disabled="disabled" placeholder="自動採番"/>
     </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">見積案件名</span>
+    <div class="form-group row">
+        <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">見積案件名</span>
+                </div>
+                <input type="text" v-model="estimate.estimateName" id="estimate_name" placeholder="入力してください"/>
+                <div class="input-group-prepend">
+                    <span class="input-group-text">見積ステータス</span>
+                </div>
+                <select v-model="estimate.status" id="status">
+                    <option disabled="disabled">ステータスを選択してください</option>
+                    <option>1:見積中</option>
+                    <option>2:見積完了</option>
+                    <option>3:受注済</option>
+                </select>
         </div>
-        <input type="text" v-model="estimate.estimateName" id="estimate_name" placeholder="入力してください"/>
-        <div class="input-group-prepend">
-            <span class="input-group-text">見積ステータス</span>
-        </div>
-        <select v-model="estimate.status" id="status" placeholder="選択してください">
-            <option>1:見積中</option>
-            <option>2:見積完了</option>
-            <option>3:受注済</option>
-        </select>
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">顧客名</span>
         </div>
         <input v-model="estimate.customer.name" type="text" id="customer_name" disabled="disabled" placeholder="顧客名を選択してください"/>
-        <button @click="showCustomerSearchDialog" class="btn btn-primary">顧客検索</button>
+        <button @click="showCustomerSearchDialog" class="btn btn-primary" id="button">顧客検索</button>
         <customer-search-dialog ref="cDialog"
             @select-customer='selectCustomer'
         />
@@ -33,7 +38,7 @@
             <span class="input-group-text">担当者名</span>
         </div>
         <input v-model="estimate.employee.name" type="text" id="employee_name" disabled="disabled" placeholder="担当者名を選択してください"/>
-        <button @click="showEmployeeSearchDialog" class="btn btn-primary">担当者検索</button>
+        <button @click="showEmployeeSearchDialog" class="btn btn-primary" id="button">担当者検索</button>
         <employee-search-dialog ref="eDialog"
             @select-employee='selectEmployee'
         />
@@ -43,7 +48,9 @@
             <span class="input-group-text">予算金額</span>
         </div>
         <input v-model="estimate.amount" type="text" id="amount" placeholder="入力してください"/>
-        <label for="over_amount">予算超過額</label>
+        <div class="input-group-prepend">
+            <span class="input-group-text">予算超過額</span>
+        </div>
         <input v-model="overAmount" type="text" id="over_amount" disabled="disabled"/>
     </div>
     <div class="input-group mb-3">
@@ -70,7 +77,7 @@ export default {
             estimateId: null,
             estimate: {
                 estimateName: null,
-                status: null,
+                status: "ステータスを選択してください",
                 customer: {
                     cd: null,
                     name: null
@@ -79,7 +86,6 @@ export default {
                     cd: null,
                     name: null
                 },
-                budgetedAmount: null,
                 amount: null
             }
         }
@@ -115,7 +121,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

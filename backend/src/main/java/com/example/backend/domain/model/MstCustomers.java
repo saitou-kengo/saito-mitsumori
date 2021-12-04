@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
+/**
+ * MstCustomer（顧客）のモデル
+ */
 @Table(name = "mst_customers")
 @Entity
 @Builder
