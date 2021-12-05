@@ -112,7 +112,7 @@ public class EstimatesController {
             status);
     }
 
-    //指定したIDの見積を削除
+    //指定したIDの見積及び見積に紐づく明細を削除
     @DeleteMapping("/estimates/:id")
     public void deleteEstimateById(@RequestParam int id) {
         eDService.deleteByEstimateId(id);

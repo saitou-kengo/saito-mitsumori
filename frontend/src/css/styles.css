@@ -1,6 +1,5 @@
 #button {
     margin-left: 10px;
-    margin-right: 10px;
     font-size: 12px;
     font-weight: bold;
 }
@@ -145,4 +144,35 @@ table #dialog-price {
 
 #modal-header, #modal-search-form {
     border-bottom: 1px solid #ddd;
+}
+
+.margin-15.row {
+    margin-bottom: 15px;
+}
+
+#index {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+#index:before, #index:after {
+    border-top: 1px solid;
+    border-color: rgb(214, 214, 214);
+    content: "";
+    width: 40%;
+}
+
+#index:before {
+    margin-right: 1em;
+}
+
+#index:after {
+    margin-left: 1em;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
 }

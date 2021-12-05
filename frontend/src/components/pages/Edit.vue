@@ -1,11 +1,14 @@
 <template>
 <div class="container">
-  <h1>見積編集</h1>
   <edit-estimate-form :estimate="estimate"/>
   <input-item-form
     @add-detail="addDetails"
   />
-  <button @click="updataComfirm" class="btn btn-warning" id="button">見積更新</button>
+  <div class="row">
+    <div class="col">
+      <button @click="updataComfirm" class="btn btn-warning" id="button">見積更新</button>
+    </div>
+  </div>
   <edit-estimate-details-list :details="details"
     @delete-detail="deleteDetail"
   />
@@ -47,16 +50,15 @@ export default {
       form.append('employeeCd', this.estimate.employeeCd);
       form.append('status', this.estimate.status);
       return new Promise(resolve => {
-      this.$axios
-      .put('http://localhost:8080/api/v1/estimates/:id', form)
-      .then((res) => {
-        console.log(res);
-        resolve();
-      })
-      .catch((err) => {
-        alert('見積情報の更新に失敗')
-        console.log("エラー：" + err);
-      })
+        this.$axios
+        .put('http://localhost:8080/api/v1/estimates/:id', form)
+        .then((res) => {
+          console.log(res + 'update a Estimate by :id');
+          resolve();
+        })
+        .catch((err) => {
+          console.log('Error：' + err);
+        })
       })
     },
     getEstimateById: function() {
@@ -71,56 +73,54 @@ export default {
         console.log('retrieve a Estimate by :id');
       })
       .catch(err => {
-        console.log('エラー：' + err);
+        console.log('Error：' + err);
       })
     },
     getEstimateDetailsListById: function() {
-    this.$axios
-    .get('http://localhost:8080/api/v1/estimate-details/:id', {
-        params: {
-        id: this.estimateId
-        }
-    })
-    .then(res => {
-        this.details = res.data;
-        console.log(res.data);
-    })
-    .catch(err => {
-        console.log('エラー：' + err);
-    });
+      this.$axios
+      .get('http://localhost:8080/api/v1/estimate-details/:id', {
+          params: {
+          id: this.estimateId
+          }
+      })
+      .then(res => {
+          this.details = res.data;
+          console.log('retrieve a Estimate by :id');
+      })
+      .catch(err => {
+          console.log('Error：' + err);
+      });
     },
     deleteDetail: function(id) {
-    this.$axios
-    .delete('http://localhost:8080/api/v1/estimate-details/:id', {
-      params: {
-        id: id
-      }
-    })
-    .then(res => {
-      alert('明細を削除しました')
-      this.$router.go({path: this.$router.currentRoute.path, force: true})
-      console.log(res.data + 'delete EstimateDetail');
-    })
-    .catch(err => {
-      console.log('エラー：', err);
-    })
+      this.$axios
+      .delete('http://localhost:8080/api/v1/estimate-details/:id', {
+        params: {
+          id: id
+        }
+      })
+      .then(res => {
+        this.$router.go({path: this.$router.currentRoute.path, force: true});
+        console.log(res.data + 'delete EstimateDetail');
+      })
+      .catch(err => {
+        console.log('Error：', err);
+      })
     },
     insertDetail(subId, productCd, quantity) {
-        let form = new FormData();
-        form.append('estimateId', this.estimateId)
-        form.append('subId', subId);
-        form.append('productCd', productCd);
-        form.append('quantity', quantity);
-        this.$axios
-        .post('http://localhost:8080/api/v1/estimate-details', form)
-        .then(res => {
-            alert('明細を追加しました')
-            this.$router.go({path: this.$router.currentRoute.path, force: true})
-            console.log(res.data + 'create new EstimateDetail');
-        })
-        .catch(err => {
-            console.log('エラー：' + err);
-        })
+      let form = new FormData();
+      form.append('estimateId', this.estimateId)
+      form.append('subId', subId);
+      form.append('productCd', productCd);
+      form.append('quantity', quantity);
+      this.$axios
+      .post('http://localhost:8080/api/v1/estimate-details', form)
+      .then(res => {
+        this.$router.go({path: this.$router.currentRoute.path, force: true})
+        console.log(res.data + 'create new EstimateDetail');
+      })
+      .catch(err => {
+        console.log('Error：' + err);
+      })
     },
     async addDetails(...inputs) {
         const [inputDetail, inputProduct, totalPrice] = inputs;

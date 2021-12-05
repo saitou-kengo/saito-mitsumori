@@ -17,8 +17,8 @@ import EstimateList from '../modules/ListView/EstimateList.vue'
 
 export default {
     components: {
-    EstimateSearchForm,
-    EstimateList
+        EstimateSearchForm,
+        EstimateList
     },
     data() {
         return {
@@ -28,15 +28,15 @@ export default {
     },
     methods: {
         getEstimatesList: function() {
-        this.$axios
-        .get('http://localhost:8080/api/v1/estimates')
-        .then(res => {
-            this.estimates = res.data;
-            console.log("retrieve all Estimate");
-        })
-        .catch(err => {
-            console.log('エラー：' + err);
-        });
+            this.$axios
+            .get('http://localhost:8080/api/v1/estimates')
+            .then(res => {
+                this.estimates = res.data;
+                console.log('retrieve all Estimate');
+            })
+            .catch(err => {
+                console.log('Error：' + err);
+            });
         },
         searchById: function(id) {
             this.$axios
@@ -50,7 +50,7 @@ export default {
                 console.log('retrieve a Estimate by :id');
             })
             .catch(err => {
-                console.log('エラー:' + err);
+                console.log('Error：' + err);
             })
         },
         searchByLikeId: function(id) {
@@ -65,7 +65,7 @@ export default {
                 console.log('retrieve a Estimate by like :id')
             })
             .catch(err => {
-                console.log('エラー:' + err);
+                console.log('Error：' + err);
             })
         },
         searchByLikeName: function(estimateName) {
@@ -80,7 +80,7 @@ export default {
                 console.log('retrieve a Estimate by like :name')
             })
             .catch(err => {
-                console.log('エラー:' + err);
+                console.log('Error：' + err);
             })
         },
         searchByLikeStatus: function(status) {
@@ -95,7 +95,7 @@ export default {
                 console.log('retrieve a Estimate by like :status')
             })
             .catch(err => {
-                console.log('エラー:' + err);
+                console.log('Error：' + err);
             })
         },
         searchByLikeCustomer: function(customerCd) {
@@ -110,7 +110,7 @@ export default {
                 console.log('retrieve a Estimate by like :customer_cd')
             })
             .catch(err => {
-                console.log('エラー:' + err);
+                console.log('Error：' + err);
             })
         },
         searchByLikeEmployee: function(employeeCd) {
@@ -125,7 +125,7 @@ export default {
                 console.log('retrieve a Estimate by like :employee_cd')
             })
             .catch(err => {
-                console.log('エラー:' + err);
+                console.log('Error：' + err);
             })
         }
     },

@@ -1,13 +1,17 @@
 <template>
 <div class="container">
-  <h1>見積詳細</h1>
-  <detail-estimate-form v-if="estimate"
+  <detail-estimate-form
+    v-if="estimate"
     :id="estimateId"
     :estimate="estimate"
     :overAmount="overAmount"
   />
-  <router-link :to="{ name:'edit',params:{ id : estimateId }}" tag="button" class="btn btn-success" id="button">編集</router-link>
-  <button @click="deleteEstimate" class="btn btn-secondary" id="button">削除</button>
+  <div class="row margin-15">
+    <div class="col">
+      <router-link :to="{ name:'edit',params:{ id : estimateId }}" tag="button" class="btn btn-success" id="button">編集</router-link>
+      <button @click="deleteEstimate" class="btn btn-secondary" id="button">削除</button>
+    </div>
+  </div>
   <estimates-datail-list :details="details"/>
 </div>
 </template>
@@ -43,12 +47,11 @@ export default {
       })
       .then(res => {
         alert('見積を削除しました')
-        this.$router.push('/');
         console.log(res.data + 'delete Estimate');
+        this.$router.push('/');
       })
       .catch(err => {
-        alert('見積の削除に失敗しました')
-        console.log("エラー：" + err);
+        console.log('Error：' + err);
       })
     },
     getEstimateById: function() {
@@ -63,23 +66,23 @@ export default {
         console.log('retrieve a Estimate by :id');
       })
       .catch(err => {
-        console.log('エラー：' + err);
+        console.log('Error：' + err);
       })
     },
     getEstimateDetailsListById: function() {
-    this.$axios
-    .get('http://localhost:8080/api/v1/estimate-details/:id', {
-        params: {
-        id: this.estimateId
-        }
-    })
-    .then(res => {
-        this.details = res.data;
-        console.log(res.data);
-    })
-    .catch(err => {
-        console.log('エラー：' + err);
-    });
+      this.$axios
+      .get('http://localhost:8080/api/v1/estimate-details/:id', {
+          params: {
+          id: this.estimateId
+          }
+      })
+      .then(res => {
+          this.details = res.data;
+          console.log('retrieve a EstimateDetail by :id');
+      })
+      .catch(err => {
+          console.log('Error：' + err);
+      });
     }
   },
   created: function() {
